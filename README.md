@@ -34,9 +34,8 @@ It installs MacTahoe Dark, WhiteSur icons, left window buttons and a compact
 bottom dock that hides automatically. Existing wallpapers are preserved.
 
 Theme operations explicitly use system GNOME tools and the real user config,
-even when launched from an app with custom XDG directories. The first install
-uses a SHA-256 verified archive pinned to a repository commit; subsequent logins
-use the home-directory cache without network access. Previous GNOME settings
+even when launched from an app with custom XDG directories. The standalone script embeds a SHA-256 verified archive; installation and
+subsequent logins work without network access, using the home-directory cache. Previous GNOME settings
 are saved in `~/.local/share/42-env/theme/before.ini`. Logs are in
 `~/.local/state/42-env/theme.log`. `--disable` removes the theme autostart too.
 
