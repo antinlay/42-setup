@@ -129,6 +129,74 @@ for attempt in range(15):
 PY_SCALE
 }
 
+# BEGIN 42 MACTAHOE THEME
+apply_desktop_theme() (
+    set -Eeuo pipefail
+    export PATH=/usr/bin:/bin
+    export XDG_CONFIG_HOME="$HOME/.config"
+    export XDG_DATA_HOME="$HOME/.local/share"
+    unset GSETTINGS_SCHEMA_DIR GSETTINGS_BACKEND
+    local cache="$HOME/.local/share/42-env/theme" archive expected actual stamp
+    mkdir -p "$cache" "$STATE"
+    exec 7>"$STATE/theme.lock"
+    flock 7
+    archive="$cache/mactahoe-gnome42.tar.xz"
+    expected=f5e09f8e8aa9186e3811d3e49e19bcd778ad6976441575c96f0adf28a11130e4
+    stamp="$cache/$expected.installed"
+    if [[ ! -f "$stamp" || ! -f "$XDG_DATA_HOME/themes/MacTahoe-Dark/gtk-3.0/gtk.css" || ! -f "$XDG_DATA_HOME/icons/WhiteSur-Codex-20261029-dark/index.theme" ]]; then
+        actual="$(sha256sum "$archive" 2>/dev/null | cut -d ' ' -f1)" || actual=''
+        if [[ "$actual" != "$expected" ]]; then
+            curl --fail --location --retry 2 --connect-timeout 15 --max-time 180 \
+                --proto '=https' --proto-redir '=https' \
+                'https://raw.githubusercontent.com/antinlay/42-setup/229d4c0b612fc030577357ea7225ed04b588c5ca/assets/themes/mactahoe-gnome42.tar.xz' \
+                -o "$archive.new" || return 1
+            actual="$(sha256sum "$archive.new" | cut -d ' ' -f1)"
+            [[ "$actual" == "$expected" ]] || { echo 'Theme archive checksum mismatch' >&2; exit 1; }
+            mv "$archive.new" "$archive"
+        fi
+        mkdir -p "$XDG_DATA_HOME/themes" "$XDG_DATA_HOME/icons"
+        tar -xJf "$archive" --no-same-owner -C "$XDG_DATA_HOME" || return 1
+        touch "$stamp"
+    fi
+    if [[ ! -f "$cache/before.ini" ]]; then
+        /usr/bin/dconf dump /org/gnome/ > "$cache/before.ini"
+    fi
+    # Schema/key availability varies between campus GNOME installations.
+    theme_set() {
+        local schema="$1" key="$2" value="$3"
+        if /usr/bin/gsettings list-keys "$schema" 2>/dev/null | grep -Fxq "$key"; then
+            if [[ "$(/usr/bin/gsettings writable "$schema" "$key")" == true ]]; then
+                /usr/bin/gsettings set "$schema" "$key" "$value"
+            else
+                echo "Theme: $schema $key is managed by this workstation" >&2
+            fi
+        fi
+        return 0
+    }
+    theme_set org.gnome.desktop.interface gtk-theme MacTahoe-Dark
+    theme_set org.gnome.desktop.interface icon-theme WhiteSur-Codex-20261029-dark
+    theme_set org.gnome.desktop.interface color-scheme prefer-dark
+    theme_set org.gnome.desktop.wm.preferences button-layout 'close,minimize,maximize:'
+    # The bundled Shell CSS was compiled for GNOME 42, used on these workstations.
+    local shell_major
+    shell_major="$(gnome-shell --version | sed -E 's/.* ([0-9]+).*/\1/')"
+    if [[ "$shell_major" == 42 ]]; then
+        /usr/bin/gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com || true
+        theme_set org.gnome.shell.extensions.user-theme name MacTahoe-Dark
+    else
+        echo "MacTahoe: GTK/icons applied; bundled Shell theme requires GNOME 42 (found $shell_major)" >&2
+    fi
+    /usr/bin/gnome-extensions enable ubuntu-dock@ubuntu.com || true
+    theme_set org.gnome.shell.extensions.dash-to-dock dock-position BOTTOM
+    theme_set org.gnome.shell.extensions.dash-to-dock extend-height false
+    theme_set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 48
+    theme_set org.gnome.shell.extensions.dash-to-dock dock-fixed false
+    theme_set org.gnome.shell.extensions.dash-to-dock autohide true
+    theme_set org.gnome.shell.extensions.dash-to-dock intellihide false
+    echo 'MacTahoe: theme, icons and automatically hidden bottom dock applied.'
+)
+# END 42 MACTAHOE THEME
+
 enable() {
     mkdir -p "$BIN" "$STATE" "$HOME/.config/autostart"
     install_keyboard_assets
@@ -141,6 +209,14 @@ enable() {
         fi
         install -m 700 "$source_path" "$target"
     fi
+    cat > "$HOME/.config/autostart/42-theme.desktop" <<EOF
+[Desktop Entry]
+Type=Application
+Name=42 MacTahoe desktop theme
+Exec="$target" --theme
+Terminal=false
+X-GNOME-Autostart-enabled=true
+EOF
     # Desktop Entry quoting handles spaces in HOME.
     local escaped="${target//\\/\\\\}"
     escaped="${escaped//\"/\\\"}"
@@ -222,6 +298,11 @@ BREW_LAUNCH
 )
 
 case "${1:-}" in
+    --theme)
+        mkdir -p "$STATE"
+        exec >>"$STATE/theme.log" 2>&1
+        echo "=== $(date -Is) $(hostname) theme ==="
+        apply_desktop_theme; exit 0 ;;
     --tools) setup_portable_tools; exit 0 ;;
     --scale)
         mkdir -p "$STATE"
@@ -230,7 +311,7 @@ case "${1:-}" in
         apply_scale; exit 0 ;;
     --enable) enable; exit 0 ;;
     --disable)
-        rm -f "$HOME/.config/autostart/42-display.desktop" "$HOME/.config/autostart/42-env.desktop" "$HOME/.config/autostart/42-keyboard.desktop"
+        rm -f "$HOME/.config/autostart/42-theme.desktop" "$HOME/.config/autostart/42-display.desktop" "$HOME/.config/autostart/42-env.desktop" "$HOME/.config/autostart/42-keyboard.desktop"
         systemctl --user disable --now mac-keyboard-fix.service auto-lock-scale.service 2>/dev/null || true
         echo 'Автозапуск выключен; текущие сочетания клавиш сохранены.'; exit 0 ;;
     --keyboard)
@@ -240,7 +321,7 @@ case "${1:-}" in
         echo "=== $(date -Is) $(hostname) keyboard ==="
         exec "$BIN/42-keyboard" ;;
     ''|--background|--force-update|--chatgpt-only) ;;
-    *) echo 'Usage: 42-setup [--tools|--scale|--enable|--disable|--force-update|--background|--keyboard|--chatgpt-only]'; exit 2 ;;
+    *) echo 'Usage: 42-setup [--theme|--tools|--scale|--enable|--disable|--force-update|--background|--keyboard|--chatgpt-only]'; exit 2 ;;
 esac
 
 mkdir -p "$STATE" "$BIN"
@@ -255,6 +336,11 @@ else
     exec > >(tee -a "$STATE/setup.log") 2>&1
 fi
 echo "=== $(date -Is) $(hostname) ==="
+if [[ "$MODE" != --chatgpt-only ]]; then
+    if ! apply_desktop_theme; then
+        echo 'MacTahoe: theme setup failed; see theme assets/network and retry --theme.' >&2
+    fi
+fi
 trap 'echo "Ошибка, строка $LINENO. Лог: $STATE/setup.log"' ERR
 [[ "$(uname -m)" == x86_64 ]] || { echo 'Нужен x86_64 Linux.'; exit 1; }
 [[ -d /goinfre && -w /goinfre ]] || { echo '/goinfre недоступен.'; exit 1; }
