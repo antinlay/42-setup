@@ -31,7 +31,8 @@ Review them before installing on another account.
 `--enable` also registers `42-theme.desktop`, which runs `42-setup --theme`
 at every GNOME login. Run `bash 42-setup.sh --theme` to apply it immediately.
 It installs MacTahoe Dark, WhiteSur icons, left window buttons and a compact
-bottom dock that hides automatically. Existing wallpapers are preserved.
+bottom dock that hides automatically. The bundled `assets/walp.png` is applied to the desktop (light and dark modes)
+and the standard GNOME lock screen. The separate campus `ft_lock` may use its own background.
 
 Theme operations explicitly use system GNOME tools and the real user config,
 even when launched from an app with custom XDG directories. The standalone script embeds a SHA-256 verified archive; installation and
