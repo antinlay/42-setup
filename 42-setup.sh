@@ -93857,6 +93857,30 @@ THEME_ARCHIVE_42
         fi
         return 0
     }
+    # Keep white panel indicators readable above bright wallpapers.
+    local panel_css="$XDG_DATA_HOME/themes/MacTahoe-Dark/gnome-shell/gnome-shell.css"
+    if ! grep -Fq 'BEGIN 42 PANEL CONTRAST' "$panel_css"; then
+        cat >> "$panel_css" <<'PANEL_CONTRAST_42'
+
+/* BEGIN 42 PANEL CONTRAST */
+#panel {
+  background-color: rgba(22, 24, 29, 0.94);
+  color: #ffffff;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.10);
+}
+#panel .panel-button,
+#panel .panel-button StLabel,
+#panel .panel-button .system-status-icon {
+  color: #ffffff;
+  text-shadow: none;
+  icon-shadow: none;
+}
+#panel .panel-button:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+/* END 42 PANEL CONTRAST */
+PANEL_CONTRAST_42
+    fi
     theme_set org.gnome.desktop.interface gtk-theme MacTahoe-Dark
     theme_set org.gnome.desktop.interface icon-theme WhiteSur-Codex-20261029-dark
     theme_set org.gnome.desktop.interface color-scheme prefer-dark
