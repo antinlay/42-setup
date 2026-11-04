@@ -9,6 +9,71 @@ BIN="$HOME/.local/bin"
 STATE="$HOME/.local/state/42-env"
 MODE="${1:-}"
 
+# Keep large application data on the local /goinfre volume. Compatibility
+# symlinks preserve existing launchers and desktop settings.
+[[ -d /goinfre && -w /goinfre && "$EUID" != 0 ]] || { echo '/goinfre недоступен или запуск от root.' >&2; exit 1; }
+mkdir -p "$ROOT"
+[[ -O "$ROOT" && ! -L "$ROOT" ]] || { echo 'Небезопасный каталог /goinfre.' >&2; exit 1; }
+mkdir -p "$ROOT/tmp" "$ROOT/cache/desktop" "$ROOT/home-storage"
+export TMPDIR="$ROOT/tmp"
+export XDG_CACHE_HOME="$ROOT/cache/desktop"
+export HOMEBREW_CACHE="$ROOT/cache/brew"
+export PIP_CACHE_DIR="$ROOT/cache/pip"
+export HF_HOME="$ROOT/cache/huggingface"
+/usr/bin/python3 - "$ROOT" <<'PY_STORAGE'
+import fcntl, os, shutil, sys
+from pathlib import Path
+home, root = Path.home(), Path(sys.argv[1])
+lock = (root/'tmp/storage-migration.lock').open('a')
+fcntl.flock(lock, fcntl.LOCK_EX)
+commands = []
+for proc in Path('/proc').iterdir():
+    if not proc.name.isdigit(): continue
+    try:
+        if proc.stat().st_uid != os.getuid(): continue
+        commands.append((proc/'comm').read_text().strip().lower())
+    except (OSError, ProcessLookupError): pass
+entries = [
+    ('.cache', 'cache/desktop', ()),
+    ('.local/state/42-env', 'home-storage/state/42-env', ()),
+    ('.local/state/codex', 'home-storage/state/codex', ('codex', 'chatgpt')),
+    ('.local/share/42-env', 'home-storage/share/42-env', ()),
+    ('.config/42-chrome', 'home-storage/config/42-chrome', ('chrome',)),
+    ('.config/google-chrome', 'home-storage/config/google-chrome', ('chrome',)),
+    ('.config/BraveSoftware', 'home-storage/config/BraveSoftware', ('brave',)),
+    ('.config/discord', 'home-storage/config/discord', ('discord',)),
+    ('.config/Code', 'home-storage/config/Code', ('code',)),
+    ('.vscode/extensions', 'home-storage/vscode/extensions', ('code',)),
+]
+for relative, target, processes in entries:
+    src, dst = home/relative, root/target
+    if src.is_symlink():
+        if not src.exists():
+            resolved = src.resolve()
+            if resolved.is_relative_to(root): resolved.mkdir(parents=True, exist_ok=True)
+        continue
+    if any(any(c == name or c.startswith(name+'-') for name in processes) for c in commands):
+        print('Отложен перенос открытого приложения:', src)
+        continue
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    if src.exists():
+        # Never merge two existing profiles or overwrite a partial migration.
+        if dst.exists():
+            if relative == '.cache' and not any(src.iterdir()): src.rmdir()
+            else:
+                print('Пропущен перенос: оба каталога существуют:', src, dst)
+                continue
+        else:
+            print('Перенос:', src, '->', dst, flush=True)
+            shutil.move(str(src), str(dst))
+    else:
+        dst.mkdir(parents=True, exist_ok=True)
+    src.parent.mkdir(parents=True, exist_ok=True)
+    src.symlink_to(dst, target_is_directory=True)
+PY_STORAGE
+[[ "$MODE" != --storage-only ]] || exit 0
+# END 42 STORAGE
+
 # BEGIN 42 DESKTOP AUTOSTART
 /usr/bin/python3 <<'PY_42_DESKTOP'
 import base64
@@ -122032,16 +122097,52 @@ enable() {
         fi
         install -m 700 "$source_path" "$target"
     fi
+    cat > "$BIN/42-bootstrap" <<'BOOTSTRAP_42'
+#!/usr/bin/env bash
+# Download only when missing; existing installations also work offline.
+set -Eeuo pipefail
+umask 077
+export PATH="/usr/bin:/bin:$PATH"
+[[ "$EUID" != 0 ]] || { echo 'Запускай без sudo.' >&2; exit 1; }
+bin="$HOME/.local/bin"
+mkdir -p "$bin"
+exec 8>"$bin/.42-bootstrap.lock"
+flock 8
+target="$bin/42-setup"
+if [[ ! -s "$target" ]]; then
+    root="/goinfre/$(id -un)"
+    [[ -d /goinfre && -w /goinfre ]] || { echo '/goinfre недоступен.' >&2; exit 1; }
+    mkdir -p "$root"
+    [[ -O "$root" && ! -L "$root" ]] || exit 1
+    mkdir -p "$root/tmp"
+    stage="$(mktemp -d "$root/tmp/42-bootstrap.XXXXXX")"
+    install_stage=""
+    trap 'rm -rf -- "$stage"; if [[ -n "$install_stage" ]]; then rm -f -- "$install_stage"; fi' EXIT
+    GIT_TERMINAL_PROMPT=0 git -c credential.helper= clone --depth 1 \
+        https://github.com/antinlay/42-setup.git "$stage/repo"
+    bash -n "$stage/repo/42-setup.sh"
+    install_stage="$(mktemp "$bin/.42-setup.XXXXXX")"
+    install -m 700 "$stage/repo/42-setup.sh" "$install_stage"
+    mv -f -- "$install_stage" "$target"
+    rm -rf -- "$stage"
+    trap - EXIT
+fi
+flock -u 8
+exec 8>&-
+exec /bin/bash "$target" "$@"
+BOOTSTRAP_42
+    chmod 700 "$BIN/42-bootstrap"
+    local launcher="$BIN/42-bootstrap"
     cat > "$HOME/.config/autostart/42-theme.desktop" <<EOF
 [Desktop Entry]
 Type=Application
 Name=42 MacTahoe desktop theme
-Exec="$target" --theme
+Exec="$launcher" --theme
 Terminal=false
 X-GNOME-Autostart-enabled=true
 EOF
     # Desktop Entry quoting handles spaces in HOME.
-    local escaped="${target//\\/\\\\}"
+    local escaped="${launcher//\\/\\\\}"
     escaped="${escaped//\"/\\\"}"
     escaped="${escaped//\$/\\\$}"
     escaped="${escaped//\`/\\\`}"
@@ -122070,6 +122171,11 @@ X-GNOME-Autostart-enabled=true
 EOF
     cat > "$BIN/42-paths.zsh" <<'EOF'
 export PATH="$HOME/.local/bin:/goinfre/$(id -un)/b/bin:/goinfre/$(id -un)/b/sbin:$PATH"
+export XDG_CACHE_HOME="/goinfre/$(id -un)/cache/desktop"
+export TMPDIR="/goinfre/$(id -un)/tmp"
+export PIP_CACHE_DIR="/goinfre/$(id -un)/cache/pip"
+export HOMEBREW_CACHE="/goinfre/$(id -un)/cache/brew"
+export HF_HOME="/goinfre/$(id -un)/cache/huggingface"
 EOF
     touch "$HOME/.zshrc"
     if ! grep -Fqx 'source "$HOME/.local/bin/42-paths.zsh"' "$HOME/.zshrc"; then
@@ -122144,7 +122250,7 @@ case "${1:-}" in
         echo "=== $(date -Is) $(hostname) keyboard ==="
         exec "$BIN/42-keyboard" ;;
     ''|--background|--force-update|--chatgpt-only) ;;
-    *) echo 'Usage: 42-setup [--theme|--tools|--scale|--enable|--disable|--force-update|--background|--keyboard|--chatgpt-only]'; exit 2 ;;
+    *) echo 'Usage: 42-setup [--theme|--tools|--scale|--enable|--disable|--force-update|--background|--keyboard|--chatgpt-only|--storage-only]'; exit 2 ;;
 esac
 
 mkdir -p "$STATE" "$BIN"
@@ -122381,12 +122487,18 @@ fi
 # Explicit launchers always use our copies, regardless of system installations.
 cat > "$BIN/42-discord" <<'EOF'
 #!/bin/bash
+"$HOME/.local/bin/42-setup" --storage-only || exit $?
+export XDG_CACHE_HOME="/goinfre/$(id -un)/cache/desktop"
+export TMPDIR="/goinfre/$(id -un)/tmp"
 app="/goinfre/$(id -un)/apps/discord/Discord"
 [[ -x "$app" ]] || { echo 'Сначала запусти 42-setup.'; exit 1; }
 exec "$app" "$@"
 EOF
 cat > "$BIN/42-chrome" <<'EOF'
 #!/bin/bash
+"$HOME/.local/bin/42-setup" --storage-only || exit $?
+export XDG_CACHE_HOME="/goinfre/$(id -un)/cache/desktop"
+export TMPDIR="/goinfre/$(id -un)/tmp"
 app="/goinfre/$(id -un)/apps/chrome/opt/google/chrome/chrome"
 [[ -x "$app" ]] || { echo 'Сначала запусти 42-setup.'; exit 1; }
 # A separate profile prevents the running system browser from receiving our launch.

@@ -4,9 +4,24 @@ User-level Ubuntu GNOME/X11 workstation setup for 42 campus computers.
 Run without sudo. Includes portable tools, desktop startup, keyboard shortcuts,
 campus lock integration and display scaling.
 
+Public download and installation (no GitHub login required):
+
 ```sh
-bash 42-setup.sh --enable
-bash 42-setup.sh --keyboard
+git clone https://github.com/antinlay/42-setup.git /goinfre/$(id -un)/42-setup
+bash /goinfre/$(id -un)/42-setup/bootstrap.sh --enable
+~/.local/bin/42-bootstrap
+```
+
+`--enable` installs the script and registers login startup. The last command
+installs/updates applications immediately. The bootstrap uses a shallow public HTTPS `git clone` to download `42-setup`
+only if the installed copy is missing, checks Bash syntax, and installs it
+atomically. Login startup uses the same bootstrap, so a missing installed script
+is recovered automatically when the network is available. Existing copies work
+offline. Keep `~/.local/bin/42-bootstrap` for this recovery path.
+
+```sh
+~/.local/bin/42-bootstrap --keyboard
+~/.local/bin/42-bootstrap --storage-only
 ```
 
 Keyboard sources include English and Russian; switch with Control+Space.
@@ -36,7 +51,7 @@ and the standard GNOME lock screen. The separate campus `ft_lock` may use its ow
 
 Theme operations explicitly use system GNOME tools and the real user config,
 even when launched from an app with custom XDG directories. The standalone script embeds a SHA-256 verified archive; installation and
-subsequent logins work without network access, using the home-directory cache. Previous GNOME settings
+subsequent logins work without network access, using the `/goinfre` cache. Previous GNOME settings
 are saved in `~/.local/share/42-env/theme/before.ini`. Logs are in
 `~/.local/state/42-env/theme.log`. `--disable` removes the theme autostart too.
 
@@ -50,3 +65,16 @@ Bundled artwork sources:
 - [WhiteSur icons](https://github.com/vinceliuice/WhiteSur-icon-theme/tree/73d8040da51a9ed74e47c7366e7e9ff437601a5c), GPL-3.0.
 
 Licenses and the compressed assets are in `assets/themes/`.
+
+## Storage
+
+Large app profiles, VS Code extensions, setup state/backups and theme archives
+are migrated to `/goinfre/$(id -un)/home-storage`. Original home paths become
+symlinks. The desktop cache is `/goinfre/$(id -un)/cache/desktop`; temporary
+files and package/model caches also use `/goinfre`. Open application profiles
+are deferred until a subsequent run after the application closes. Existing
+source and destination directories are never merged automatically.
+
+Small desktop settings, themes/icons, launchers and personal files remain in
+home. `/goinfre` is local workstation storage: profiles stored there are not
+synchronized to other campus computers and may be removed by campus cleanup.
