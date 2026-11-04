@@ -21,3 +21,21 @@ text = text.replace(old, hashlib.sha256(wallpaper).hexdigest())
 text = re.sub(r"(?<=<<'WALLPAPER_ASSET_42'\n).*?(?=WALLPAPER_ASSET_42\n)",
               lambda _: base64.encodebytes(wallpaper).decode(), text, flags=re.S)
 script.write_text(text)
+
+# Embed readable editor sources so the downloaded standalone script works offline.
+import json
+editor = root / 'assets/editor'
+installer = (editor / 'install.py').read_text()
+settings = {name: (editor / name).read_text() for name in ['vimrc', 'xcode_dark.vim', 'terminal-profile.json']}
+program = installer + '\nmain(' + repr(settings) + ')\n'
+block = '''# BEGIN 42 EDITOR
+setup_editor() {
+    /usr/bin/python3 - <<'PY_EDITOR_42'
+import base64
+exec(compile(base64.b64decode(%r), '<42-editor>', 'exec'))
+PY_EDITOR_42
+}
+# END 42 EDITOR''' % base64.b64encode(program.encode()).decode()
+text = script.read_text()
+text = re.sub(r'# BEGIN 42 EDITOR\n.*?# END 42 EDITOR', lambda _: block, text, flags=re.S)
+script.write_text(text)

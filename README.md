@@ -78,3 +78,35 @@ source and destination directories are never merged automatically.
 Small desktop settings, themes/icons, launchers and personal files remain in
 home. `/goinfre` is local workstation storage: profiles stored there are not
 synchronized to other campus computers and may be removed by campus cleanup.
+
+## Vim and GNOME Terminal
+
+`bash 42-setup.sh --editor` installs the bundled Vim configuration and the
+complete `lebowski` GNOME Terminal profile, including **Liberation Mono 12**,
+colors, transparency, cursor, scrollback and cell spacing. The profile is made
+default; other profiles remain available. The snapshot includes effective
+settings as well as customized values. Unsupported or locked settings on a
+different GNOME version are skipped with a message. Liberation Mono must be
+installed on the workstation (provided on the campus Ubuntu image).
+
+Vim uses an Xcode-inspired dark syntax palette with the terminal's background.
+C/C++ (including `.h`) use real tabs with width 4. Includes persistent undo,
+backups, Ctrl-S save, Ctrl-P file completion, Ctrl-B explorer, Space-f project
+search (requires `rg`) and Space-y clipboard copy (native clipboard or X11
+`xclip`). Function/type semantic highlighting is limited by built-in Vim syntax.
+The 42 header shortcut uses an existing `Stdheader` plugin if available.
+
+`--enable` applies these settings immediately and registers `42-editor.desktop`
+to restore them at each login. Full/background setup applies them too. Run
+`--enable` again after updating an existing installation to register the new
+autostart. Bootstrap keeps existing offline copies; it does not automatically
+fetch repository updates. Copy a new `42-setup.sh` and rerun `--enable` to upgrade.
+`--disable` removes the editor autostart along with the other startup entries.
+
+Readable sources are in `assets/editor/`; run `python3 tools/bundle.py` after
+editing them. The standalone script embeds all editor assets and needs no
+network access for `--editor`. Changed Vim files are backed up under
+`~/.local/state/42-env/editor/backups/`. The first terminal state is saved as
+`~/.local/state/42-env/editor/terminal-before.json` (GVariant values for use with
+`gsettings set`). Repeated identical runs do not create extra Vim backups.
+Desktop-derived colors/transparency can vary with the workstation's GTK theme.

@@ -1,0 +1,148 @@
+" Vim 8.2+: portable editing defaults, C/42 tabs, VS Code-like shortcuts.
+set nocompatible
+set encoding=utf-8
+filetype plugin indent on
+syntax enable
+let mapleader = " "
+
+" Interface and completion.
+set background=dark
+" Modern terminal RGB colors; keep a 256-color fallback for older terminals.
+if has('termguicolors') && ($COLORTERM =~# 'truecolor\|24bit' || &term =~# 'xterm\|screen\|tmux\|kitty\|alacritty')
+  set termguicolors
+endif
+colorscheme xcode_dark
+set number
+set cursorline
+set cursorlineopt=number
+set signcolumn=auto
+set laststatus=2
+set showcmd ruler showmatch
+set mouse=a
+set scrolloff=5 sidescrolloff=5
+set nowrap
+set splitbelow splitright
+set wildmenu
+set wildmode=longest:full,full
+set wildignore+=*/.git/*,*/node_modules/*,*.o,*.a,*.swp
+set completeopt=menuone,noinsert,noselect
+set shortmess+=c
+set updatetime=300
+set timeoutlen=500
+set ttimeoutlen=50
+set listchars=tab:>-,trail:·,extends:>,precedes:<,nbsp:+
+set nolist
+set statusline=%f\ %h%m%r%=%{&filetype}\ [%{&expandtab?'spaces':'tabs'}:%{&tabstop}]\ %l:%c\ %p%%
+
+" Search and editing.
+set incsearch hlsearch ignorecase smartcase
+set backspace=indent,eol,start
+set autoindent
+set tabstop=4 shiftwidth=4 softtabstop=4 expandtab
+set history=1000
+set hidden
+set confirm
+set nrformats-=octal
+set formatoptions-=t
+set foldmethod=manual
+
+" Keep swap recovery and persistent undo in private Vim directories.
+for s:dir in ['undo', 'swap', 'backup']
+  call mkdir(expand('~/.vim/' . s:dir), 'p', 0700)
+endfor
+unlet s:dir
+set undofile
+set undodir=~/.vim/undo//
+set directory=~/.vim/swap//
+set backupdir=~/.vim/backup//
+set backup
+set backupcopy=auto
+
+augroup personal_editing
+  autocmd!
+  " .h may be detected as C or C++; both need the same tab stops.
+  autocmd FileType c,cpp setlocal tabstop=4 shiftwidth=4 softtabstop=0 noexpandtab colorcolumn=81
+  autocmd FileType make setlocal tabstop=4 shiftwidth=4 softtabstop=0 noexpandtab
+  autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab
+  autocmd FileType json,javascript,typescript,html,css,yaml setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+  autocmd FileType * setlocal formatoptions-=o formatoptions-=t
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line('$') && &filetype !~# 'commit' | execute 'normal! g`"' | endif
+augroup END
+
+" Familiar shortcuts; standard Vim motions remain available.
+nnoremap <silent> <C-s> :update<CR>
+inoremap <silent> <C-s> <C-o>:update<CR>
+xnoremap <silent> <C-s> <Esc>:update<CR>
+nnoremap <silent> <C-b> :Lexplore<CR>
+nnoremap <silent> <leader>e :Lexplore<CR>
+nnoremap <silent> <leader><space> :nohlsearch<CR>
+nnoremap <silent> <leader>l :set list!<CR>
+nnoremap <silent> <leader>w :set wrap!<CR>
+nnoremap <silent> <leader>bn :bnext<CR>
+nnoremap <silent> <leader>bp :bprevious<CR>
+nnoremap <silent> <leader>q :copen<CR>
+nnoremap <silent> [q :cprevious<CR>
+nnoremap <silent> ]q :cnext<CR>
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+xnoremap < <gv
+xnoremap > >gv
+nnoremap j gj
+nnoremap k gk
+inoremap <C-Space> <C-n>
+
+" Built-in project file picker: :Files, then type a path and use Tab.
+set path+=**
+set wildignore+=*/.venv/*,*/build/*,*/dist/*
+command! -nargs=* -complete=file Files execute 'find ' . <q-args>
+" Ctrl-P opens the command with completion ready.
+nnoremap <C-p> :Files<Space>
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_winsize = 25
+let g:netrw_browse_split = 4
+
+" :Search text searches from Vim's current directory and opens quickfix.
+if executable('rg')
+  set grepprg=rg\ --vimgrep\ --smart-case\ --
+  set grepformat=%f:%l:%c:%m
+  function! s:Search(text) abort
+    silent execute 'grep! ' . shellescape(a:text) . ' .'
+    cwindow
+    redraw!
+  endfunction
+  command! -nargs=+ Search call <SID>Search(<q-args>)
+  nnoremap <leader>f :Search<Space>
+endif
+
+" Clipboard: native support when available; otherwise X11 helpers.
+if has('clipboard')
+  set clipboard^=unnamedplus
+  xnoremap <leader>y "+y
+  nnoremap <leader>p "+p
+elseif executable('xclip') && !empty($DISPLAY)
+  function! s:CopySelection() abort
+    let l:saved = getreg('z', 1, 1)
+    let l:type = getregtype('z')
+    normal! gv"zy
+    call system('xclip -selection clipboard -in', getreg('z'))
+    call setreg('z', l:saved, l:type)
+  endfunction
+  xnoremap <silent> <leader>y :<C-u>call <SID>CopySelection()<CR>
+  nnoremap <silent> <leader>p :read !xclip -selection clipboard -out<CR>
+endif
+
+" Existing 42 header identity. F1 explains if the plugin is missing.
+let g:user = 'aliakhev'
+let g:mail = 'aliakhev@student.42yerevan.am'
+function! s:Header() abort
+  if exists(':Stdheader') == 2
+    Stdheader
+  else
+    echo '42 header plugin is not installed (:Stdheader unavailable).'
+  endif
+endfunction
+nnoremap <silent> <F1> :call <SID>Header()<CR>
+inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
