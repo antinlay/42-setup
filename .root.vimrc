@@ -145,12 +145,12 @@ endfunction
 nnoremap <silent> <F1> :call <SID>Header()<CR>
 inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 
-" ===== BEGIN USER C00-C09 FUNCTIONS =====
-" Each code line is a Vim comment. C06 main functions are the assignments themselves.
+" ===== BEGIN USER C00-C11 FUNCTIONS =====
+" Each code line is a Vim comment. Assignment entry points are included.
 "
 " ===== C00/ex00/ft_putchar.c =====
 " #include <unistd.h>
-" 
+"
 " void	ft_putchar(char c)
 " {
 " 	write(1, &c, 1);
@@ -158,11 +158,11 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C00/ex01/ft_print_alphabet.c =====
 " #include <unistd.h>
-" 
+"
 " void	ft_print_alphabet(void)
 " {
 " 	char	c;
-" 
+"
 " 	c = 'a';
 " 	while (c <= 'z')
 " 	{
@@ -173,11 +173,11 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C00/ex02/ft_print_reverse_alphabet.c =====
 " #include <unistd.h>
-" 
+"
 " void	ft_print_reverse_alphabet(void)
 " {
 " 	char	c;
-" 
+"
 " 	c = 'z';
 " 	while (c >= 'a')
 " 	{
@@ -188,11 +188,11 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C00/ex03/ft_print_numbers.c =====
 " #include <unistd.h>
-" 
+"
 " void	ft_print_numbers(void)
 " {
 " 	char	c;
-" 
+"
 " 	c = '0';
 " 	while (c <= '9')
 " 	{
@@ -203,12 +203,12 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C00/ex04/ft_is_negative.c =====
 " #include <unistd.h>
-" 
+"
 " void	ft_is_negative(int n)
 " {
 " 	char	neg;
 " 	char	p;
-" 
+"
 " 	neg = 'N';
 " 	p = 'P';
 " 	if (n < 0)
@@ -223,11 +223,11 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C00/ex05/ft_print_comb.c =====
 " #include <unistd.h>
-" 
+"
 " void	ft_print_comb(void)
 " {
 " 	char	digits[3];
-" 
+"
 " 	digits[0] = '0';
 " 	digits[1] = '1';
 " 	digits[2] = '2';
@@ -252,21 +252,21 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C00/ex06/ft_print_comb2.c =====
 " #include <unistd.h>
-" 
+"
 " void	ft_print_two_digits(int number)
 " {
 " 	char	digits[2];
-" 
+"
 " 	digits[0] = '0' + number / 10;
 " 	digits[1] = '0' + number % 10;
 " 	write(1, digits, 2);
 " }
-" 
+"
 " void	ft_print_comb2(void)
 " {
 " 	int	first;
 " 	int	second;
-" 
+"
 " 	first = 0;
 " 	second = 0;
 " 	while (first <= 99)
@@ -287,21 +287,21 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C00/ex07/ft_putnbr.c =====
 " #include <unistd.h>
-" 
+"
 " void	ft_write_long(long number)
 " {
 " 	char	c;
-" 
+"
 " 	if (number >= 10)
 " 		ft_write_long(number / 10);
 " 	c = '0' + number % 10;
 " 	write(1, &c, 1);
 " }
-" 
+"
 " void	ft_putnbr(int nb)
 " {
 " 	long	number;
-" 
+"
 " 	number = nb;
 " 	if (number < 0)
 " 	{
@@ -313,11 +313,11 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C00/ex08/ft_print_combn.c =====
 " #include <unistd.h>
-" 
+"
 " void	ft_init_digits(char *digits, int n)
 " {
 " 	int	i;
-" 
+"
 " 	i = 0;
 " 	while (i < n)
 " 	{
@@ -325,12 +325,12 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 		i++;
 " 	}
 " }
-" 
+"
 " void	ft_print_combn(int n)
 " {
 " 	char	digits[9];
 " 	int		i;
-" 
+"
 " 	i = 0;
 " 	ft_init_digits(digits, n);
 " 	while (1)
@@ -370,7 +370,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " void	ft_swap(int *a, int *b)
 " {
 " 	int	temp;
-" 
+"
 " 	temp = *a;
 " 	*a = *b;
 " 	*b = temp;
@@ -388,7 +388,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " {
 " 	int	dev;
 " 	int	mod;
-" 
+"
 " 	dev = *a / *b;
 " 	mod = *a % *b;
 " 	*a = dev;
@@ -397,7 +397,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C01/ex05/ft_putstr.c =====
 " #include <unistd.h>
-" 
+"
 " void	ft_putstr(char *str)
 " {
 " 	while (*str)
@@ -410,7 +410,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " int	ft_strlen(char *str)
 " {
 " 	int	i;
-" 
+"
 " 	i = 0;
 " 	while (*str)
 " 	{
@@ -426,7 +426,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	int	left;
 " 	int	right;
 " 	int	temp;
-" 
+"
 " 	left = 0;
 " 	right = size - 1;
 " 	while (left < right)
@@ -445,7 +445,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	int	i;
 " 	int	j;
 " 	int	temp;
-" 
+"
 " 	i = 0;
 " 	while (i < size - 1)
 " 	{
@@ -468,7 +468,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " char	*ft_strcpy(char *dest, char *src)
 " {
 " 	int	i;
-" 
+"
 " 	i = 0;
 " 	while (src[i] != '\0')
 " 	{
@@ -483,7 +483,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " char	*ft_strncpy(char *dest, char *src, unsigned int n)
 " {
 " 	unsigned int	i;
-" 
+"
 " 	i = 0;
 " 	while (i < n && src[i] != '\0')
 " 	{
@@ -561,7 +561,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " char	*ft_strupcase(char *str)
 " {
 " 	char	*start_str;
-" 
+"
 " 	start_str = str;
 " 	while (*str)
 " 	{
@@ -576,7 +576,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " char	*ft_strlowcase(char *str)
 " {
 " 	char	*start_str;
-" 
+"
 " 	start_str = str;
 " 	while (*str)
 " 	{
@@ -595,7 +595,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	else
 " 		return (0);
 " }
-" 
+"
 " int	ft_char_is_numeric(char str)
 " {
 " 	if (str >= '0' && str <= '9')
@@ -603,26 +603,26 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	else
 " 		return (0);
 " }
-" 
+"
 " char	ft_charlowcase(char str)
 " {
 " 	if (str >= 'A' && str <= 'Z')
 " 		str = str + ('a' - 'A');
 " 	return (str);
 " }
-" 
+"
 " char	ft_charuppercase(char str)
 " {
 " 	if (str >= 'a' && str <= 'z')
 " 		str = str - ('a' - 'A');
 " 	return (str);
 " }
-" 
+"
 " char	*ft_strcapitalize(char *str)
 " {
 " 	int		new_word;
 " 	char	*start_str;
-" 
+"
 " 	new_word = 1;
 " 	start_str = str;
 " 	while (*str)
@@ -647,7 +647,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " {
 " 	unsigned int	i;
 " 	unsigned int	n;
-" 
+"
 " 	i = 0;
 " 	n = 0;
 " 	while (*(src + i) != '\0')
@@ -668,19 +668,19 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C02/ex11/ft_putstr_non_printable.c =====
 " #include <unistd.h>
-" 
+"
 " int	ft_char_is_printable(char str)
 " {
 " 	if (str < ' ' || str > '~')
 " 		return (0);
 " 	return (1);
 " }
-" 
+"
 " void	ft_putstr_non_printable(char *str)
 " {
 " 	unsigned char	c;
 " 	char			*hex;
-" 
+"
 " 	hex = "0123456789abcdef";
 " 	while (*str)
 " 	{
@@ -700,7 +700,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " ===== C02/ex12/ft_print_memory.c =====
 " #include <stdint.h>
 " #include <unistd.h>
-" 
+"
 " void	ft_str_write_printable(unsigned char str)
 " {
 " 	if (str < ' ' || str > '~')
@@ -708,12 +708,12 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	else
 " 		write(1, &str, 1);
 " }
-" 
+"
 " unsigned int	ft_print_hex_byte(unsigned char *byte, unsigned int i,
 " 		unsigned int offset, unsigned int size)
 " {
 " 	char	*hex;
-" 
+"
 " 	hex = "0123456789abcdef";
 " 	while (i < 16 && offset + i < size)
 " 	{
@@ -726,18 +726,18 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	return (i);
 " }
-" 
+"
 " void	ft_print_address_hex(uintptr_t address, int digits)
 " {
 " 	char	*hex;
-" 
+"
 " 	hex = "0123456789abcdef";
 " 	if (digits == 0)
 " 		return ;
 " 	ft_print_address_hex(address / 16, digits - 1);
 " 	write(1, &hex[address % 16], 1);
 " }
-" 
+"
 " void	ft_print_spaces(int i)
 " {
 " 	while (i < 16)
@@ -748,13 +748,13 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 			write(1, " ", 1);
 " 	}
 " }
-" 
+"
 " void	*ft_print_memory(void *addr, unsigned int size)
 " {
 " 	unsigned char	*ptr;
 " 	unsigned int	i;
 " 	unsigned int	offset;
-" 
+"
 " 	ptr = (unsigned char *)addr;
 " 	i = 0;
 " 	offset = 0;
@@ -795,7 +795,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " int	ft_strncmp(char *s1, char *s2, unsigned int n)
 " {
 " 	unsigned int	i;
-" 
+"
 " 	i = 0;
 " 	if (n == i)
 " 		return (0);
@@ -813,7 +813,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " {
 " 	unsigned int	i;
 " 	unsigned int	j;
-" 
+"
 " 	i = 0;
 " 	j = 0;
 " 	while (dest[i])
@@ -833,7 +833,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " {
 " 	unsigned int	i;
 " 	unsigned int	j;
-" 
+"
 " 	i = 0;
 " 	j = 0;
 " 	while (dest[i])
@@ -853,7 +853,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " {
 " 	int	i;
 " 	int	j;
-" 
+"
 " 	i = 0;
 " 	j = 0;
 " 	if (!*to_find)
@@ -878,7 +878,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	unsigned int	i;
 " 	unsigned int	j;
 " 	unsigned int	k;
-" 
+"
 " 	i = 0;
 " 	j = 0;
 " 	k = 0;
@@ -902,7 +902,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " int	ft_strlen(char *str)
 " {
 " 	int	i;
-" 
+"
 " 	i = 0;
 " 	while (str[i])
 " 		i++;
@@ -911,7 +911,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C04/ex01/ft_putstr.c =====
 " #include <unistd.h>
-" 
+"
 " void	ft_putstr(char *str)
 " {
 " 	while (*str)
@@ -923,12 +923,12 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C04/ex02/ft_putnbr.c =====
 " #include <unistd.h>
-" 
+"
 " void	ft_putnbr(int nb)
 " {
 " 	long	n;
 " 	char	c;
-" 
+"
 " 	n = nb;
 " 	if (nb < 0)
 " 	{
@@ -948,20 +948,20 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 		str++;
 " 	return (str);
 " }
-" 
+"
 " char	*ft_skip_sign(char *str)
 " {
 " 	while (*str == '-' || *str == '+')
 " 		str++;
 " 	return (str);
 " }
-" 
+"
 " int	ft_sign_number(char *str)
 " {
 " 	char	*s;
 " 	int		sign;
 " 	int		i;
-" 
+"
 " 	s = ft_skip_space(str);
 " 	sign = 1;
 " 	i = 0;
@@ -973,13 +973,13 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	return (sign);
 " }
-" 
+"
 " int	ft_atoi(char *str)
 " {
 " 	int		sign;
 " 	int		res;
 " 	char	*s;
-" 
+"
 " 	sign = ft_sign_number(str);
 " 	res = 0;
 " 	s = ft_skip_space(str);
@@ -995,12 +995,12 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C04/ex04/ft_putnbr_base.c =====
 " #include <unistd.h>
-" 
+"
 " int	ft_original_len(char *base)
 " {
 " 	int	i;
 " 	int	j;
-" 
+"
 " 	i = 0;
 " 	while (base[i])
 " 	{
@@ -1019,13 +1019,13 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 		return (0);
 " 	return (i);
 " }
-" 
+"
 " void	ft_putnbr_base(int nbr, char *base)
 " {
 " 	long	n;
 " 	char	c;
 " 	int		len;
-" 
+"
 " 	n = nbr;
 " 	len = ft_original_len(base);
 " 	if (!len)
@@ -1046,7 +1046,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " {
 " 	int	i;
 " 	int	j;
-" 
+"
 " 	i = 0;
 " 	while (base[i])
 " 	{
@@ -1066,7 +1066,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 		return (0);
 " 	return (i);
 " }
-" 
+"
 " char	*ft_skip_chars(char *str, int space)
 " {
 " 	if (space)
@@ -1081,13 +1081,13 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	return (str);
 " }
-" 
+"
 " int	ft_sign_number(char *str)
 " {
 " 	char	*s;
 " 	int		sign;
 " 	int		i;
-" 
+"
 " 	s = ft_skip_chars(str, 1);
 " 	sign = 1;
 " 	i = 0;
@@ -1099,11 +1099,11 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	return (sign);
 " }
-" 
+"
 " int	ft_digit_index(char c, char *base)
 " {
 " 	int	i;
-" 
+"
 " 	i = 0;
 " 	while (base[i])
 " 	{
@@ -1113,7 +1113,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	return (-1);
 " }
-" 
+"
 " int	ft_atoi_base(char *str, char *base)
 " {
 " 	int		len;
@@ -1121,7 +1121,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	int		res;
 " 	int		digit;
 " 	char	*s;
-" 
+"
 " 	len = ft_original_len(base);
 " 	if (!len)
 " 		return (0);
@@ -1145,7 +1145,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " {
 " 	int	i;
 " 	int	res;
-" 
+"
 " 	i = 1;
 " 	res = 1;
 " 	if (nb < 0)
@@ -1174,7 +1174,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " {
 " 	int	res;
 " 	int	i;
-" 
+"
 " 	res = 1;
 " 	i = 1;
 " 	if (power < 0)
@@ -1213,7 +1213,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " int	ft_sqrt(int nb)
 " {
 " 	int	i;
-" 
+"
 " 	i = 1;
 " 	if (nb <= 0)
 " 		return (0);
@@ -1230,7 +1230,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " int	ft_is_prime(int nb)
 " {
 " 	int	i;
-" 
+"
 " 	i = 2;
 " 	if (nb <= 1)
 " 		return (0);
@@ -1247,7 +1247,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " int	ft_is_prime(int nb)
 " {
 " 	int	i;
-" 
+"
 " 	i = 2;
 " 	if (nb <= 1)
 " 		return (0);
@@ -1259,11 +1259,11 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	return (1);
 " }
-" 
+"
 " int	ft_find_next_prime(int nb)
 " {
 " 	int	i;
-" 
+"
 " 	i = nb;
 " 	if (nb < 2)
 " 		return (2);
@@ -1274,11 +1274,11 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C05/ex08/ft_ten_queens_puzzle.c =====
 " #include <unistd.h>
-" 
+"
 " int	ft_is_safe(int queens[10], int col, int row)
 " {
 " 	int	i;
-" 
+"
 " 	i = 0;
 " 	while (i < col)
 " 	{
@@ -1290,12 +1290,12 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	return (1);
 " }
-" 
+"
 " void	print_queens(int queens[10])
 " {
 " 	int		col;
 " 	char	c;
-" 
+"
 " 	col = 0;
 " 	while (col < 10)
 " 	{
@@ -1305,12 +1305,12 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	write(1, "\n", 1);
 " }
-" 
+"
 " int	solve(int queens[10], int col)
 " {
 " 	int	count;
 " 	int	row;
-" 
+"
 " 	row = 0;
 " 	count = 0;
 " 	if (col == 10)
@@ -1330,17 +1330,17 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	return (count);
 " }
-" 
+"
 " int	ft_ten_queens_puzzle(void)
 " {
 " 	int	queens[10];
-" 
+"
 " 	return (solve(queens, 0));
 " }
 "
 " ===== C06/ex00/ft_print_program_name.c =====
 " #include <unistd.h>
-" 
+"
 " void	print_str(char *str)
 " {
 " 	while (*str)
@@ -1350,7 +1350,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	write(1, "\n", 1);
 " }
-" 
+"
 " int	main(int argc, char **argv)
 " {
 " 	if (argc > 0)
@@ -1359,7 +1359,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C06/ex01/ft_print_params.c =====
 " #include <unistd.h>
-" 
+"
 " void	print_str(char *str)
 " {
 " 	while (*str)
@@ -1369,11 +1369,11 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	write(1, "\n", 1);
 " }
-" 
+"
 " int	main(int argc, char **argv)
 " {
 " 	int	i;
-" 
+"
 " 	i = 1;
 " 	if (argc > 0)
 " 	{
@@ -1387,7 +1387,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C06/ex02/ft_rev_params.c =====
 " #include <unistd.h>
-" 
+"
 " void	print_str(char *str)
 " {
 " 	while (*str)
@@ -1397,11 +1397,11 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	write(1, "\n", 1);
 " }
-" 
+"
 " int	main(int argc, char **argv)
 " {
 " 	int	i;
-" 
+"
 " 	i = argc - 1;
 " 	if (argc > 0)
 " 	{
@@ -1415,7 +1415,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C06/ex03/ft_sort_params.c =====
 " #include <unistd.h>
-" 
+"
 " void	print_str(char *str)
 " {
 " 	while (*str)
@@ -1425,7 +1425,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	write(1, "\n", 1);
 " }
-" 
+"
 " int	ft_strcmp(char *s1, char *s2)
 " {
 " 	while (*s1 || *s2)
@@ -1437,13 +1437,13 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	return (0);
 " }
-" 
+"
 " void	ft_sort_params(int argc, char **argv)
 " {
 " 	char	*tmp;
 " 	int		i;
 " 	int		pass;
-" 
+"
 " 	pass = 0;
 " 	while (pass < argc - 2)
 " 	{
@@ -1461,11 +1461,11 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 		pass++;
 " 	}
 " }
-" 
+"
 " int	main(int argc, char **argv)
 " {
 " 	int	i;
-" 
+"
 " 	i = 1;
 " 	if (argc > 0)
 " 	{
@@ -1480,11 +1480,11 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C07/ex00/ft_strdup.c =====
 " #include <stdlib.h>
-" 
+"
 " int	ft_strlen(char *str)
 " {
 " 	int	i;
-" 
+"
 " 	i = 0;
 " 	while (*str)
 " 	{
@@ -1493,12 +1493,12 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	return (i);
 " }
-" 
+"
 " char	*ft_strdup(char *src)
 " {
 " 	char	*copy;
 " 	int		i;
-" 
+"
 " 	i = 0;
 " 	copy = malloc(ft_strlen(src) + 1);
 " 	if (copy == NULL)
@@ -1514,12 +1514,12 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C07/ex01/ft_range.c =====
 " #include <stdlib.h>
-" 
+"
 " int	*ft_range(int min, int max)
 " {
 " 	int	*range;
 " 	int	i;
-" 
+"
 " 	if (min >= max)
 " 		return (NULL);
 " 	range = malloc((max - min) * sizeof(int));
@@ -1536,12 +1536,12 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C07/ex02/ft_ultimate_range.c =====
 " #include <stdlib.h>
-" 
+"
 " int	ft_ultimate_range(int **range, int min, int max)
 " {
 " 	int	i;
 " 	int	size;
-" 
+"
 " 	i = 0;
 " 	if (min >= max)
 " 	{
@@ -1562,11 +1562,11 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C07/ex03/ft_strjoin.c =====
 " #include <stdlib.h>
-" 
+"
 " int	ft_strlen(char *str)
 " {
 " 	int	i;
-" 
+"
 " 	i = 0;
 " 	while (*str)
 " 	{
@@ -1575,12 +1575,12 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	return (i);
 " }
-" 
+"
 " int	ft_total_len(int size, char **strs, char *sep)
 " {
 " 	int	i;
 " 	int	total;
-" 
+"
 " 	i = 0;
 " 	total = 0;
 " 	while (i < size)
@@ -1592,22 +1592,22 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	return (total);
 " }
-" 
+"
 " char	*ft_return_eof(void)
 " {
 " 	char	*res;
-" 
+"
 " 	res = malloc(1);
 " 	if (!res)
 " 		return (NULL);
 " 	res[0] = '\0';
 " 	return (res);
 " }
-" 
+"
 " void	ft_copy_part(char *res, char *src, int *k)
 " {
 " 	int	j;
-" 
+"
 " 	j = 0;
 " 	while (src[j])
 " 	{
@@ -1616,13 +1616,13 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 		(*k)++;
 " 	}
 " }
-" 
+"
 " char	*ft_strjoin(int size, char **strs, char *sep)
 " {
 " 	char	*res;
 " 	int		k;
 " 	int		i;
-" 
+"
 " 	if (!size)
 " 		return (ft_return_eof());
 " 	res = malloc(ft_total_len(size, strs, sep) * sizeof(char) + 1);
@@ -1645,12 +1645,12 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C07/ex04/ft_convert_base.c =====
 " #include <stdlib.h>
-" 
+"
 " int	ft_digits_count(int number, int base_len)
 " {
 " 	int	digits;
 " 	int	n;
-" 
+"
 " 	digits = 1;
 " 	n = number / base_len;
 " 	while (n != 0)
@@ -1660,12 +1660,12 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	return (digits);
 " }
-" 
+"
 " int	ft_check_base(char *base)
 " {
 " 	int	i;
 " 	int	j;
-" 
+"
 " 	i = 0;
 " 	if (ft_strlen(base) < 2)
 " 		return (0);
@@ -1685,7 +1685,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	return (1);
 " }
-" 
+"
 " char	*ft_itoa_base(int number, char *base_to)
 " {
 " 	char	*res;
@@ -1693,7 +1693,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	int		size;
 " 	int		n;
 " 	int		i;
-" 
+"
 " 	base_len = ft_strlen(base_to);
 " 	size = ft_digits_count(number, base_len) + (number < 0) + 1;
 " 	res = malloc(size);
@@ -1714,11 +1714,11 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 		res[i] = '-';
 " 	return (res);
 " }
-" 
+"
 " char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
 " {
 " 	int	number;
-" 
+"
 " 	if (!ft_check_base(base_from) || !ft_check_base(base_to))
 " 		return (NULL);
 " 	number = ft_atoi_base(nbr, base_from);
@@ -1727,11 +1727,11 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C07/ex04/ft_convert_base2.c =====
 " #include <stdlib.h>
-" 
+"
 " int	ft_strlen(char *str)
 " {
 " 	int	i;
-" 
+"
 " 	i = 0;
 " 	while (*str)
 " 	{
@@ -1740,11 +1740,11 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	return (i);
 " }
-" 
+"
 " int	ft_skip_prefix(char *nbr, int *sign)
 " {
 " 	int	i;
-" 
+"
 " 	i = 0;
 " 	while (nbr[i] == ' ' || nbr[i] == '\t' || nbr[i] == '\n' || nbr[i] == '\v'
 " 		|| nbr[i] == '\f' || nbr[i] == '\r')
@@ -1757,11 +1757,11 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	return (i);
 " }
-" 
+"
 " int	ft_digit_value(char c, char *base)
 " {
 " 	int	i;
-" 
+"
 " 	i = 0;
 " 	while (base[i])
 " 	{
@@ -1771,7 +1771,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	return (-1);
 " }
-" 
+"
 " int	ft_atoi_base(char *nbr, char *base)
 " {
 " 	int	i;
@@ -1779,7 +1779,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	int	result;
 " 	int	len;
 " 	int	digit;
-" 
+"
 " 	sign = 1;
 " 	i = ft_skip_prefix(nbr, &sign);
 " 	result = 0;
@@ -1799,11 +1799,11 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C07/ex05/ft_split.c =====
 " #include <stdlib.h>
-" 
+"
 " int	ft_is_sep(char c, char *charset)
 " {
 " 	int	i;
-" 
+"
 " 	i = 0;
 " 	while (charset[i])
 " 	{
@@ -1813,12 +1813,12 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	return (0);
 " }
-" 
+"
 " int	ft_count_words(char *str, char *charset)
 " {
 " 	int	i;
 " 	int	count;
-" 
+"
 " 	i = 0;
 " 	count = 0;
 " 	while (str[i])
@@ -1833,12 +1833,12 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	return (count);
 " }
-" 
+"
 " char	*ft_copy_word(char *start, int len)
 " {
 " 	char	*word;
 " 	int		i;
-" 
+"
 " 	word = malloc(len + 1);
 " 	if (!word)
 " 		return (NULL);
@@ -1851,13 +1851,13 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	word[i] = '\0';
 " 	return (word);
 " }
-" 
+"
 " int	ft_fill_words(char **res, char *str, char *charset)
 " {
 " 	int		i;
 " 	int		j;
 " 	int		start;
-" 
+"
 " 	i = 0;
 " 	j = 0;
 " 	while (str[i])
@@ -1877,11 +1877,11 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	res[j] = NULL;
 " 	return (1);
 " }
-" 
+"
 " char	**ft_split(char *str, char *charset)
 " {
 " 	char	**res;
-" 
+"
 " 	res = malloc((ft_count_words(str, charset) + 1) * sizeof(char *));
 " 	if (!res)
 " 		return (NULL);
@@ -1893,22 +1893,22 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " ===== C08/ex04/ft_strs_to_tab.c =====
 " #include <stdlib.h>
 " #include "ft_stock_str.h"
-" 
+"
 " int	ft_strlen(char *str)
 " {
 " 	int	i;
-" 
+"
 " 	i = 0;
 " 	while (str[i])
 " 		i++;
 " 	return (i);
 " }
-" 
+"
 " char	*ft_strdup(char *src)
 " {
 " 	char	*copy;
 " 	int		i;
-" 
+"
 " 	i = 0;
 " 	copy = malloc(ft_strlen(src) + 1);
 " 	if (copy == NULL)
@@ -1921,11 +1921,11 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	copy[i] = src[i];
 " 	return (copy);
 " }
-" 
+"
 " void	ft_free_tab(t_stock_str *tab, int count)
 " {
 " 	int	i;
-" 
+"
 " 	i = 0;
 " 	while (i < count)
 " 	{
@@ -1934,12 +1934,12 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	free(tab);
 " }
-" 
+"
 " struct s_stock_str	*ft_strs_to_tab(int ac, char **av)
 " {
 " 	int			i;
 " 	t_stock_str	*tab;
-" 
+"
 " 	tab = malloc(sizeof(t_stock_str) * (ac + 1));
 " 	if (!tab)
 " 		return (NULL);
@@ -1963,11 +1963,11 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " ===== C08/ex05/ft_show_tab.c =====
 " #include "ft_stock_str.h"
 " #include <unistd.h>
-" 
+"
 " void	ft_putstr(char *str)
 " {
 " 	int	i;
-" 
+"
 " 	i = 0;
 " 	while (str[i])
 " 	{
@@ -1976,21 +1976,21 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	write(1, "\n", 1);
 " }
-" 
+"
 " void	ft_putnbr(int n)
 " {
 " 	char	c;
-" 
+"
 " 	if (n >= 10)
 " 		ft_putnbr(n / 10);
 " 	c = n % 10 + '0';
 " 	write(1, &c, 1);
 " }
-" 
+"
 " void	ft_show_tab(struct s_stock_str *par)
 " {
 " 	int	i;
-" 
+"
 " 	i = 0;
 " 	while (par[i].str != 0)
 " 	{
@@ -2004,7 +2004,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C09/ex00/ft_putchar.c =====
 " #include <unistd.h>
-" 
+"
 " void	ft_putchar(char c)
 " {
 " 	write(1, &c, 1);
@@ -2012,7 +2012,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C09/ex00/ft_putstr.c =====
 " #include <unistd.h>
-" 
+"
 " void	ft_putstr(char *str)
 " {
 " 	while (*str)
@@ -2039,7 +2039,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " int	ft_strlen(char *str)
 " {
 " 	int	i;
-" 
+"
 " 	i = 0;
 " 	while (str[i])
 " 		i++;
@@ -2050,7 +2050,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " void	ft_swap(int *a, int *b)
 " {
 " 	int	temp;
-" 
+"
 " 	temp = *a;
 " 	*a = *b;
 " 	*b = temp;
@@ -2058,7 +2058,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C09/ex01/srcs/ft_putchar.c =====
 " #include <unistd.h>
-" 
+"
 " void	ft_putchar(char c)
 " {
 " 	write(1, &c, 1);
@@ -2066,7 +2066,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C09/ex01/srcs/ft_putstr.c =====
 " #include <unistd.h>
-" 
+"
 " void	ft_putstr(char *str)
 " {
 " 	while (*str)
@@ -2093,7 +2093,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " int	ft_strlen(char *str)
 " {
 " 	int	i;
-" 
+"
 " 	i = 0;
 " 	while (str[i])
 " 		i++;
@@ -2104,7 +2104,7 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " void	ft_swap(int *a, int *b)
 " {
 " 	int	temp;
-" 
+"
 " 	temp = *a;
 " 	*a = *b;
 " 	*b = temp;
@@ -2112,11 +2112,11 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 "
 " ===== C09/ex02/ft_split.c =====
 " #include <stdlib.h>
-" 
+"
 " int	ft_is_sep(char c, char *charset)
 " {
 " 	int	i;
-" 
+"
 " 	i = 0;
 " 	while (charset[i])
 " 	{
@@ -2126,12 +2126,12 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	return (0);
 " }
-" 
+"
 " int	ft_count_words(char *str, char *charset)
 " {
 " 	int	i;
 " 	int	count;
-" 
+"
 " 	i = 0;
 " 	count = 0;
 " 	while (str[i])
@@ -2146,12 +2146,12 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " 	return (count);
 " }
-" 
+"
 " char	*ft_copy_word(char *start, int len)
 " {
 " 	char	*word;
 " 	int		i;
-" 
+"
 " 	word = malloc(len + 1);
 " 	if (!word)
 " 		return (NULL);
@@ -2164,13 +2164,13 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	word[i] = '\0';
 " 	return (word);
 " }
-" 
+"
 " int	ft_fill_words(char **res, char *str, char *charset)
 " {
 " 	int		i;
 " 	int		j;
 " 	int		start;
-" 
+"
 " 	i = 0;
 " 	j = 0;
 " 	while (str[i])
@@ -2190,11 +2190,11 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	res[j] = NULL;
 " 	return (1);
 " }
-" 
+"
 " char	**ft_split(char *str, char *charset)
 " {
 " 	char	**res;
-" 
+"
 " 	res = malloc((ft_count_words(str, charset) + 1) * sizeof(char *));
 " 	if (!res)
 " 		return (NULL);
@@ -2202,4 +2202,308 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 		return (NULL);
 " 	return (res);
 " }
-" ===== END USER C00-C09 FUNCTIONS =====
+"
+" ===== C11/ex00/ft_foreach.c =====
+" void	ft_foreach(int *tab, int length, void (*f)(int))
+" {
+" 	int	i;
+"
+" 	i = 0;
+" 	while (i < length)
+" 	{
+" 		f(tab[i]);
+" 		i++;
+" 	}
+" }
+"
+" ===== C11/ex01/ft_map.c =====
+" #include <stdlib.h>
+"
+" int	*ft_map(int *tab, int length, int (*f)(int))
+" {
+" 	int	i;
+" 	int	*res;
+"
+" 	i = 0;
+" 	res = malloc(length * sizeof(int));
+" 	if (!res)
+" 		return (NULL);
+" 	while (i < length)
+" 	{
+" 		res[i] = f(tab[i]);
+" 		i++;
+" 	}
+" 	return (res);
+" }
+"
+" ===== C11/ex02/ft_any.c =====
+" #include <stddef.h>
+"
+" int	ft_any(char **tab, int (*f)(char*))
+" {
+" 	int	i;
+"
+" 	i = 0;
+" 	while (tab[i] != NULL)
+" 	{
+" 		if (f(tab[i]) != 0)
+" 			return (1);
+" 		i++;
+" 	}
+" 	return (0);
+" }
+"
+" ===== C11/ex03/ft_count_if.c =====
+" int	ft_count_if(char **tab, int length, int (*f)(char*))
+" {
+" 	int	i;
+" 	int	count;
+"
+" 	i = 0;
+" 	count = 0;
+" 	while (i < length)
+" 	{
+" 		if (f(tab[i]) != 0)
+" 			count++;
+" 		i++;
+" 	}
+" 	return (count);
+" }
+"
+" ===== C11/ex04/ft_is_sort.c =====
+" int	ft_is_sort(int *tab, int length, int (*f)(int, int))
+" {
+" 	int	i;
+" 	int	direction;
+" 	int	fres;
+"
+" 	i = 0;
+" 	direction = 0;
+" 	if (length <= 1)
+" 		return (1);
+" 	while (i + 1 < length)
+" 	{
+" 		fres = f(tab[i], tab[i + 1]);
+" 		if ((direction == -1 && fres < 0) || (direction == 1 && fres > 0))
+" 			return (0);
+" 		if (fres < 0)
+" 			direction = 1;
+" 		else if (fres > 0)
+" 			direction = -1;
+" 		i++;
+" 	}
+" 	return (1);
+" }
+"
+" ===== C11/ex05/do_op.c =====
+" #include "do_op.h"
+"
+" t_op	ft_get_op(char *str)
+" {
+" 	if (!str[0] || str[1] != '\0')
+" 		return (OP_INV);
+" 	if (str[0] == '+')
+" 		return (OP_ADD);
+" 	else if (str[0] == '-')
+" 		return (OP_SUB);
+" 	else if (str[0] == '/')
+" 		return (OP_DIV);
+" 	else if (str[0] == '*')
+" 		return (OP_MUL);
+" 	else if (str[0] == '%')
+" 		return (OP_MOD);
+" 	return (OP_INV);
+" }
+"
+" int	ft_check_error(t_op op, int b)
+" {
+" 	if ((op == OP_DIV || op == OP_MOD) && b == 0)
+" 	{
+" 		if (op == OP_DIV)
+" 			write(1, "Stop : division by zero\n", 24);
+" 		else if (op == OP_MOD)
+" 			write(1, "Stop : modulo by zero\n", 22);
+" 		return (1);
+" 	}
+" 	return (0);
+" }
+"
+" int	ft_execute(t_op op, int a, int b)
+" {
+" 	int		(*operations[5])(int, int);
+"
+" 	operations[OP_ADD] = ft_add;
+" 	operations[OP_SUB] = ft_sub;
+" 	operations[OP_MUL] = ft_mult;
+" 	operations[OP_DIV] = ft_div;
+" 	operations[OP_MOD] = ft_mod;
+" 	return (operations[op](a, b));
+" }
+"
+" int	main(int argc, char **argv)
+" {
+" 	t_op	op;
+" 	int		a;
+" 	int		b;
+"
+" 	if (argc == 4)
+" 	{
+" 		op = ft_get_op(argv[2]);
+" 		if (op == OP_INV)
+" 		{
+" 			write(1, "0\n", 2);
+" 			return (1);
+" 		}
+" 		a = ft_atoi(argv[1]);
+" 		b = ft_atoi(argv[3]);
+" 		if (ft_check_error(op, b))
+" 			return (1);
+" 		ft_putnbr(ft_execute(op, a, b));
+" 		write(1, "\n", 1);
+" 	}
+" 	return (0);
+" }
+"
+" ===== C11/ex05/ft_atoi.c =====
+" char	*ft_skip_space(char *str)
+" {
+" 	while (*str == ' ' || (*str >= 9 && *str <= 13))
+" 		str++;
+" 	return (str);
+" }
+"
+" char	*ft_skip_sign(char *str)
+" {
+" 	while (*str == '-' || *str == '+')
+" 		str++;
+" 	return (str);
+" }
+"
+" int	ft_sign_number(char *str)
+" {
+" 	char	*s;
+" 	int		sign;
+" 	int		i;
+"
+" 	s = ft_skip_space(str);
+" 	sign = 1;
+" 	i = 0;
+" 	while (s[i] == '+' || s[i] == '-')
+" 	{
+" 		if (s[i] == '-')
+" 			sign *= -1;
+" 		i++;
+" 	}
+" 	return (sign);
+" }
+"
+" int	ft_atoi(char *str)
+" {
+" 	int		sign;
+" 	long	res;
+" 	char	*s;
+"
+" 	sign = ft_sign_number(str);
+" 	res = 0;
+" 	s = ft_skip_space(str);
+" 	s = ft_skip_sign(s);
+" 	while (*s >= '0' && *s <= '9')
+" 	{
+" 		res = res * 10 + (*s - '0');
+" 		s++;
+" 	}
+" 	res *= sign;
+" 	return (res);
+" }
+"
+" ===== C11/ex05/ft_ops.c =====
+" #include "do_op.h"
+"
+" int	ft_add(int a, int b)
+" {
+" 	return (a + b);
+" }
+"
+" int	ft_sub(int a, int b)
+" {
+" 	return (a - b);
+" }
+"
+" int	ft_div(int a, int b)
+" {
+" 	return (a / b);
+" }
+"
+" int	ft_mult(int a, int b)
+" {
+" 	return (a * b);
+" }
+"
+" int	ft_mod(int a, int b)
+" {
+" 	return (a % b);
+" }
+"
+" ===== C11/ex05/ft_putnbr.c =====
+" #include <unistd.h>
+"
+" void	ft_putnbr(int nb)
+" {
+" 	long	n;
+" 	char	c;
+"
+" 	n = nb;
+" 	if (nb < 0)
+" 	{
+" 		write(1, "-", 1);
+" 		n = -n;
+" 	}
+" 	c = n % 10 + '0';
+" 	if (n >= 10)
+" 		ft_putnbr(n / 10);
+" 	write(1, &c, 1);
+" }
+"
+" ===== C11/ex06/ft_sort_string_tab.c =====
+" #include <stddef.h>
+"
+" int	ft_strcmp(char *s1, char *s2)
+" {
+" 	while (*s1 || *s2)
+" 	{
+" 		if (*s1 != *s2)
+" 			return ((unsigned char) *s1 - (unsigned char) *s2);
+" 		s1++;
+" 		s2++;
+" 	}
+" 	return (0);
+" }
+"
+" void	ft_sort_string_tab(char **tab)
+" {
+" 	int		i;
+" 	int		j;
+" 	int		swapped;
+" 	char	*str;
+"
+" 	i = 0;
+" 	j = 0;
+" 	swapped = 1;
+" 	while (swapped)
+" 	{
+" 		i = 0;
+" 		swapped = 0;
+" 		while (tab[i] && tab[i + 1])
+" 		{
+" 			if (ft_strcmp(tab[i], tab[i + 1]) > 0)
+" 			{
+" 				str = *(tab + i);
+" 				*(tab + i) = *(tab + i + 1);
+" 				*(tab + i + 1) = str;
+" 				swapped = 1;
+" 			}
+" 			i++;
+" 		}
+" 	}
+" }
+" ===== END USER C00-C11 FUNCTIONS =====
