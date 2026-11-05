@@ -134,9 +134,7 @@ elseif executable('xclip') && !empty($DISPLAY)
   nnoremap <silent> <leader>p :read !xclip -selection clipboard -out<CR>
 endif
 
-" Existing 42 header identity. F1 explains if the plugin is missing.
-let g:user = 'aliakhev'
-let g:mail = 'aliakhev@student.42yerevan.am'
+" F1 inserts a 42 header if the plugin is installed.
 function! s:Header() abort
   if exists(':Stdheader') == 2
     Stdheader
@@ -148,7 +146,6 @@ nnoremap <silent> <F1> :call <SID>Header()<CR>
 inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 
 " ===== BEGIN USER C00-C09 FUNCTIONS =====
-" Source: /home/aliakhev/Developer
 " Each code line is a Vim comment. C06 main functions are the assignments themselves.
 "
 " ===== C00/ex00/ft_putchar.c =====
