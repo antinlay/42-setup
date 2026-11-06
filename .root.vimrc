@@ -2531,3 +2531,1595 @@ inoremap <silent> <F1> <C-o>:call <SID>Header()<CR>
 " 	}
 " }
 " ===== END USER C00-C11 FUNCTIONS =====
+
+" ===== BEGIN LOCAL EXAM SOLUTIONS =====
+"
+" ===== Level 01/first_word/first_word.c =====
+" #include <unistd.h>
+"
+" int	main(int argc, char **argv)
+" {
+" 	int	i = 0;
+"
+" 	if (argc == 2)// a.out "word"
+" 	{
+" 		while (argv[1][i] == ' ' || argv[1][i] == '\t')//if there is any space or tab
+" 			i++;//ignore them
+" 		while (argv[1][i] != ' ' && argv[1][i] != '\0' && argv[1][i] != '\t')
+" 		{//if there is no space, tab and end
+" 			write(1, &argv[1][i], 1);//write av[1]
+" 			i++;
+" 		}
+" 	}
+" 	write(1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 01/fizzbuzz/fizzbuzz.c =====
+" #include <unistd.h>
+"
+" void	ft_putnbr(int n)
+" {
+" 	if (n > 9)
+" 		ft_putnbr(n / 10);//take first index
+" 	char c = (n % 10) + '0';//put second index
+" 	write(1, &c, 1);
+" }
+"
+" int	main()
+" {
+" 	int	i = 1;
+"
+" 	while (i <= 100)
+" 	{
+" 		if (i % 3 == 0 && i % 5 == 0)
+" 			write (1, "fizzbuzz", 8);
+" 		else if (i % 3 == 0)
+" 			write (1, "fizz", 4);
+" 		else if (i % 5 == 0)
+" 			write (1, "buzz", 4);
+" 		else
+" 			ft_putnbr(i);
+" 		i++;
+" 		write (1, "\n", 1);
+" 	}
+" }
+"
+" ===== Level 01/ft_putstr/ft_putstr.c =====
+" #include	<unistd.h>
+"
+" void	ft_putstr(char *str)
+" {
+" 	while (*str)
+" 		write(1, str++, 1);
+" }
+"
+" ===== Level 01/ft_strcpy/ft_strcpy.c =====
+" char	*ft_strcpy(char *src, char *dest)
+" {
+" 	int	i = 0;
+"
+" 	while (src[i] != 0)
+" 	{
+" 		dest[i] = src[i];
+" 		i++;
+" 	}
+" 	dest[i] = '\0';
+" 	return (dest);
+" }
+"
+" ===== Level 01/ft_strlen/ft_strlen.c =====
+" int	ft_strlen(char *str)
+" {
+" 	int	i = 0;
+"
+" 	while (str[i])
+" 		i++;
+" 	return (i);
+" }
+"
+" ===== Level 01/ft_swap/ft_swap.c =====
+" void	ft_swap(int *a, int *b)
+" {
+" 	int	i = *a;
+"
+" 	*a = *b;
+" 	*b = i;
+" }
+"
+" ===== Level 01/repeat_alpha/repeat_alpha.c =====
+" #include <unistd.h>
+"
+" int	main(int argc, char **argv)
+" {
+" 	int	i = 0;
+" 	int	count = 0;//of letter a-1 b-2 c-3 ...
+"
+" 	if (argc == 2)
+" 	{
+" 		while (argv[1][i] != '\0')
+" 		{
+" 			if (argv[1][i] >= 'A' && argv[1][i] <= 'Z')
+" 				count = argv[1][i] - 64;
+" 			else if (argv[1][i] >= 'a' && argv[1][i] <= 'z')
+" 				count = argv[1][i] - 96;
+" 			while (count)
+" 			{
+" 				write(1, &argv[1][i], 1);
+" 				count--;//write till count exsist
+" 			}
+" 			count = 1;
+" 			i++;
+" 		}
+" 	}
+" 	write(1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 01/rev_print/rev_print.c =====
+" #include <unistd.h>
+"
+" int	main(int argc, char **argv)
+" {
+" 	int	i = 0;
+"
+" 	if (argc == 2)
+" 	{
+" 		while (argv[1][i] != '\0')
+" 			i++;//go till the end
+" 		i--;//remove '\0'
+" 		while (i >= 0)
+" 		{
+" 			write(1, &argv[1][i], 1);
+" 			i--;//go back and put it
+" 		}
+" 	}
+" 	write(1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 01/rot_13/rot_13.c =====
+" #include <unistd.h>
+"
+" int	main(int argc, char **argv)
+" {
+" 	int	i = 0;
+"
+" 	if (argc == 2)
+" 	{
+" 		while (argv[1][i])
+" 		{
+" 			if (argv[1][i] >= 'a' && argv[1][i] <= 'z')
+" 				argv[1][i] = (argv[1][i] - 'a' + 13) % 26 + 'a';//go 13 letters forward
+" 			else if (argv[1][i] >= 'A' && argv[1][i] <= 'Z')
+" 				argv[1][i] = (argv[1][i] - 'A' + 13) % 26 + 'A';//M->Z, N->A, A->N
+" 			// if ((av[1][i] >= 'A' && av[1][i] <= 'M') || (av[1][i] >= 'a' && av[1][i] <='m'))
+" 			// 	av[1][i] += 13;
+" 			// else if ((av[1][i] >= 'N' && av[1][i] <= 'Z') || (av[1][i] >= 'n' && av[1][i] <= 'z'))
+" 			// 	av[1][i] -= 13;
+" 			write(1, &argv[1][i], 1);
+" 			i++;
+" 		}
+" 	}
+" 	write(1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 01/rotone/rotone.c =====
+" #include <unistd.h>
+"
+" int	main(int argc, char **argv)
+" {
+" 	int	i = 0;
+"
+" 	if (argc == 2)
+" 	{
+" 		while (argv[1][i] != '\0')
+" 		{
+" 			if (argv[1][i] == 'z' || argv[1][i] == 'Z')//z->a || Z-A
+" 				argv[1][i] -= 25;
+" 			else if (argv[1][i] >= 'a' && argv[1][i] < 'z')
+" 				argv[1][i] += 1;//go 1 letter forward
+" 			else if (argv[1][i] >= 'A' && argv[1][i] < 'Z')
+" 				argv[1][i] += 1;
+" 			// else if ((av[1][i] >= 'A' && av[1][i] < 'Z') || (av[1][i] >= 'a' && av[1][i] < 'z'))
+" 			// 	av[1][i] += 1;
+" 			write(1, &argv[1][i], 1);
+" 			i++;
+" 		}
+" 	}
+" 	write(1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 01/search_and_replace/search_and_replace.c =====
+" #include <unistd.h>
+"
+" int	main(int argc, char **argv)
+" {
+" 	int	i = 0;
+"
+" 	if (argc == 4)
+" 	{
+" 		if (!argv[2][1] && !argv[3][1])//check if index 1 is '\0', if there is 1 letter
+" 		{
+" 			while (argv[1][i]!= '\0')
+" 			{
+" 				if (argv[1][i] == argv[2][0])//if in str[i] == search[i]
+" 					write(1, &argv[3][0], 1);//replace and put it
+" 				else
+" 					write(1, &argv[1][i], 1);
+" 				i++;
+" 			}
+" 		}
+" 	}
+" 	write(1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 01/ulstr/ulstr.c =====
+" #include <unistd.h>
+"
+" int	main(int argc, char **argv)
+" {
+" 	int	i = 0;
+"
+" 	if (argc == 2)
+" 	{
+" 		while (argv[1][i] != '\0')
+" 		{
+" 			if (argv[1][i] >= 'a' && argv[1][i] <= 'z')
+" 				argv[1][i] -= 32;//uper
+" 			else if (argv[1][i] >= 'A' && argv[1][i] <= 'Z')
+" 				argv[1][i] += 32;//lower
+" 			write(1, &argv[1][i], 1);
+" 			i++;
+" 		}
+" 	}
+" 	write(1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 02/alpha_mirror/alpha_mirror.c =====
+" #include <unistd.h>
+"
+" int	main(int argc, char **argv)
+" {
+" 	int	i = 0;
+"
+" 	if (argc == 2)
+" 	{
+" 		while (argv[1][i] != '\0')
+" 		{//doing some maths
+" 			if (argv[1][i] >= 'A' && argv[1][i] <= 'Z')
+" 				argv[1][i] = 'M' - (argv[1][i] - 'N');
+" 			else if (argv[1][i] >= 'a' && argv[1][i] <= 'z')
+" 				argv[1][i] = 'm' - (argv[1][i] - 'n');
+" 			write(1, &argv[1][i], 1);
+" 			i++;
+" 		}
+" 	}
+" 	write(1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 02/camel_to_snake/camel_to_snake.c =====
+" #include <unistd.h>
+"
+" int	main(int argc, char **argv)
+" {
+" 	int	i = 0;
+"
+" 	if (argc == 2)
+" 	{
+" 		while (argv[1][i] != '\0')
+" 		{
+" 			if (argv[1][i] >= 'A' && argv[1][i] <= 'Z')
+" 			{
+" 				write(1, "_", 1);//put it
+" 				argv[1][i] += 32;//next is upper, change it
+" 			}
+" 			write(1, &argv[1][i], 1);
+" 			i++;
+" 		}
+" 	}
+" 	write(1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 02/do_op/do_op.c =====
+" #include <unistd.h>
+" #include <stdio.h>
+" #include <stdlib.h>
+"
+" int	main(int argc, char **argv)
+" {
+" 	int	num1 = atoi(argv[1]);//for digit
+" 	int	num2 = atoi(argv[3]);//for digit
+" 	int	op = argv[2][0];//operator is character
+" 	int	res = 0;
+"
+" 	if (argc == 4)
+" 	{
+" 		// if(av[2][1] == '\0')
+" 		// {
+" 		// 	if (av[1][i] != '\0' && av[3][i] != '\0')
+" 		// 	{
+" 		if (op == '+')
+" 			res = num1 + num2;
+" 		else if (op == '-')
+" 			res = num1 - num2;
+" 		else if (op == '*')
+" 			res = num1 * num2;
+" 		else if (op == '/')
+" 			res = num1 / num2;
+" 		else if (op == '%')
+" 			res = num1 % num2;
+" 		printf("%d\n", res);
+" 		// 	}
+" 		// }
+" 	}
+" 	else
+" 		write(1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 02/ft_atoi/ft_atoi.c =====
+" int	ft_atoi(const char *str)
+" {
+" 	int	i = 0;
+" 	int	res = 0;
+" 	int	neg = 1;
+"
+" 	while (str[i] == ' ' || str[i] == '\n' || str[i] == '\t' || str[i] == '\v' || str[i] == '\r' || str[i] == '\f')
+" 		i++;//ignore and pass
+" 	if (str[i] == '+' || str[i] == '-')
+" 	{
+" 		if (str[i] == '-')//check the minus
+" 			neg = -1;
+" 		i++;
+" 	}
+" 	while (str[i] >= '0' && str[i] <= '9')
+" 	{
+" 		res = (str[i] - '0') + (res * 10);//char to int
+" 		i++;
+" 	}
+" 	return (res * neg);
+" }
+"
+" ===== Level 02/ft_strcmp/ft_strcmp.c =====
+" int	ft_strcmp(char *s1, char *s2)
+" {
+" 	int	i = 0;
+"
+" 	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
+" 		i++;
+" 	return (s1[i] - s2[i]);
+" }
+"
+" // int    ft_strcmp(char *s1, char *s2)
+" // {
+" // 	while (*s1 && *s2 && *s1 == *s2)
+" // 	{
+" // 		s1++;
+" // 		s2++;
+" // 	}
+" // 	return(s1 - s2);
+" // }
+"
+" ===== Level 02/ft_strcspn/ft_strcspn.c =====
+" int ft_strcspn(const char *s1, const char *s2)
+" {
+" 	int	i = 0;
+" 	int	j;
+"
+" 	while (s1[i] != '\0')
+" 	{
+" 		j = 0;
+" 		while (s2[j] != '\0')
+" 		{
+" 			if (s1[i] == s2[j])
+" 				return (i);
+" 			j++;
+" 		}
+" 		i++;
+" 	}
+" 	i = 0;
+" 	while (s1[i] != '\0')
+" 		i++;
+" 	return (i);
+" }
+"
+" ===== Level 02/ft_strdup/ft_strdup.c =====
+" #include <stdlib.h>
+"
+" char	*ft_strdup(char *src)
+" {
+" 	char	*dup;
+" 	int		i = 0;
+"
+" 	dup = (char *)malloc(sizeof(*src) - 1);
+" 	while (src[i])
+" 	{
+" 		dup[i] = src[i];
+" 		i++;
+" 	}
+" 	dup[i] = '\0';
+" 	return (dup);
+" }
+"
+" ===== Level 02/ft_strpbrk/ft_strpbrk.c =====
+" int	find_char(const char c, const char *str)
+" {
+" 	while (*str)
+" 	{
+" 		if (*str == c)
+" 			return (1);
+" 		str++;
+" 	}
+" 	return (0);
+" }
+"
+" char	*ft_strpbrk(const char *s1, const char *s2)
+" {
+" 	while (*s1)
+" 	{
+" 		if (find_char(*s1, s2) == 1)
+" 			return ((char *)s1);
+" 		s1++;
+" 	}
+" 	return (0);
+" }
+"
+" // char	*ft_strpbrk(const char *s1, const char *s2)
+" // {
+" // 	int i = 0;
+"
+" // 	while (*s1)
+" // 	{
+" // 		if (*s1 == s2[i])
+" // 		{
+" // 			return ((char *)s1);
+" // 			i++;
+" // 		}
+" // 		s1++;
+" // 	}
+" // 	return (0);
+" // }
+"
+" ===== Level 02/ft_strrev/ft_strrev.c =====
+" char	*ft_strrev(char *str)
+" {
+" 	int	i = 0;
+" 	int	len = 0;
+" 	char	tmp;
+"
+" 	while(str[len] != '\0')//ft_strlen
+" 		len++;
+" 	len--;
+" 	while (len > i)
+" 	{
+" 		tmp = str[i];//swap
+" 		str[i] = str[len];
+" 		str[len] = tmp;
+" 		i++;
+" 		len--;
+" 	}
+" 	return (str);
+" }
+"
+" ===== Level 02/ft_strspn/ft_strspn.c =====
+" #include <string.h>
+"
+" char	*ft_strchr(const char *s, int c)
+" {
+" 	while (*s != '\0')
+" 	{
+" 		if (*s == c)
+" 			return ((char *)s);
+" 		s++;
+" 	}
+" 	return (0);
+" }
+"
+" int	ft_strspn(const char *s, const char *accept)
+" {
+" 	size_t	i = 0;
+"
+" 	while (s[i] != '\0')
+" 	{
+" 		if (ft_strchr(accept, s[i]) == 0)
+" 			break;
+" 		i++;
+" 	}
+" 	return (i);
+" }
+"
+" ===== Level 02/inter/inter.c =====
+" #include <unistd.h>
+"
+" int	check_doubles(char *str, char c, int pos)
+" {
+" 	int	i = 0;
+"
+" 	while (i < pos)
+" 	{
+" 		if (str[i] == c)
+" 			return (0);
+" 		i++;
+" 	}
+" 	return (1);
+" }
+"
+" int	main(int argc, char **argv)
+" {
+" 	int	i = 0;
+" 	int	j;
+"
+" 	if (argc == 3)
+" 	{
+" 		while (argv[1][i] != '\0')
+" 		{
+" 			j = 0;
+" 			while (argv[2][j] != '\0')
+" 			{
+" 				if (argv[1][i] == argv[2][j])
+" 				{
+" 					if (check_doubles(argv[1], argv[1][i], i))//check the same letters
+" 					{
+" 						write(1, &argv[1][i], 1);
+" 						break ;
+" 					}
+" 				}
+" 				j++;
+" 			}
+" 			i++;
+" 		}
+" 	}
+" 	write(1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 02/is_power_of_2/is_power_of_2.c =====
+" int	is_power_of_2(unsigned int n)
+" {
+" 	unsigned int	i = 1;
+"
+" 	while (i <= n)
+" 	{
+" 		if (i == n)
+" 			return (1);
+" 		i *= 2;//-> ^2, i *= 3; -> ^3
+" 	}
+" 	return (0);
+" }
+"
+" ===== Level 02/last_word/last_word.c =====
+" #include <unistd.h>
+"
+" int main(int ac, char **av)
+" {
+"     int i = 0;
+"
+"     if (ac == 2)
+"     {
+"         while (av[1][i] != '\0')
+"             i++;//go till the end
+"         i--;//remove '\0'
+"         while (av[1][i] == ' ' || av[1][i] == '\t')
+"         {
+"             av[1][i] = '\0';
+"             i--;
+"         }
+"         while ((av[1][i] != ' ' || av[1][i] != '\t') && av[1][i] > 32)//check if it is unprintable
+"             i--;
+"         while ((av[1][i] != ' ' || av[1][i] != '\t') && av[1][i + 1] != '\0')//write till '\0'
+"             write (1, &av[1][++i], 1);
+"     }
+"     write (1, "\n", 1);
+"     return (0);
+" }
+"
+" ===== Level 02/max/max.c =====
+" int	max(int *tab, unsigned int len)
+" {
+" 	int	max;
+"
+" 	if (!len)
+" 		return (0);
+" 	max = tab[--len];//without '\0'
+" 	while (len--)//searching max from back
+" 		if (tab[len] > max)//if it is max
+" 			max = tab[len];//tak it from array
+" 		return max;
+" }
+"
+" ===== Level 02/print_bits/print_bits.c =====
+" #include <unistd.h>
+"
+" void	print_bits(unsigned char octet)
+" {
+" 	int	i = 128;
+"
+" 	while (i > 0)
+" 	{
+" 		if (octet >= i)
+" 		{
+" 			write(1, "1", 1);
+" 			octet %= i;
+" 			i /= 2;
+" 		}
+" 		else
+" 		{
+" 			write(1, "0", 1);
+" 			i /= 2;
+" 		}
+" 	}
+" }
+"
+" ===== Level 02/reverse_bits/reverse_bits.c =====
+" unsigned char	reverse_bits(unsigned char octet)
+" {
+" 	unsigned char	out = 0;
+"
+" 	out = out | ((octet & 128) >> 7);
+" 	out = out | ((octet & 64) >> 5);
+" 	out = out | ((octet & 32) >> 3);
+" 	out = out | ((octet & 16) >> 1);
+" 	out = out | ((octet & 8) << 1);
+" 	out = out | ((octet & 4) << 3);
+" 	out = out | ((octet & 2) << 5);
+" 	out = out | ((octet & 1) << 7);
+" 	return (out);
+" }
+"
+" ===== Level 02/snake_to_camel/snake_to_camel.c =====
+" #include <unistd.h>
+"
+" int		main(int argc, char **argv)
+" {
+" 	int	i = 0;
+"
+" 	if (argc == 2)
+" 	{
+" 		while (argv[1][i] != '\0')
+" 		{
+" 			if (argv[1][i] == '_')
+" 			{
+" 				i++;//go next, it is lower
+" 				argv[1][i] -= 32;//change lower to upper
+" 			}
+" 			write(1, &argv[1][i], 1);
+" 			i++;
+" 		}
+" 	}
+" 	write(1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 02/swap_bits/swap_bits.c =====
+" unsigned	char swap_bits(unsigned char octet)
+" {
+" 	return ((octet >> 4) | (octet << 4));
+" }
+"
+" ===== Level 02/union/union.c =====
+" #include <unistd.h>
+"
+" void	print_union(char *a, char *b)
+" {
+" 	char	c[128] = {0};
+" 	int	i;
+"
+" 	while (*a != '\0')
+" 	{
+" 		i = *a;
+" 		if (c[i] == 0)
+" 		{
+" 			write(1, a, 1);
+" 			c[i] = 1;
+" 		}
+" 		a++;
+" 	}
+" 	while (*b != '\0')
+" 	{
+" 		i = *b;
+" 		if (c[i] == 0)
+" 		{
+" 			write(1, b, 1);
+" 			c[i] = 1;
+" 		}
+" 		b++;
+" 	}
+" }
+"
+" int	main(int argc, char **argv)
+" {
+" 	if (argc == 3)
+" 		print_union(argv[1], argv[2]);
+" 	write(1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 02/wdmatch/wdmatch.c =====
+" #include <unistd.h>
+"
+" void	wdmatch(char *s1, char *s2)
+" {
+" 	int	i = 0;
+"
+" 	while (s1[i] != '\0')
+" 	{
+" 		while (*s2 != s1[i] && *s2 != '\0')
+" 			s2++;//++s2
+" 		if (*s2 == '\0')
+" 			return ;
+" 		i++;//++i
+" 		s2++;//++s2
+" 	}
+" 	write(1, s1, i);
+" }
+"
+" int	main(int argc, char **argv)
+" {
+" 	if (argc == 3)
+" 		wdmatch(argv[1], argv[2]);
+" 	write(1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 03/add_prime_sum/add_prime_sum.c =====
+" #include <unistd.h>
+"
+" void	ft_putnbr(int n)
+" {
+" 	if (n > 9)
+" 		ft_putnbr(n / 10);
+" 	char c = (n % 10) + '0';
+" 	write(1, &c, 1);
+" }
+"
+" int		is_prime(int n)
+" {
+" 	int i = 2;
+"
+" 	while (i < n)
+" 	{
+" 		if (n % i == 0)
+" 			return (0);
+" 		++i;
+" 	}
+" 	return (1);
+" }
+"
+" int		add_prime_sum(int n)
+" {
+" 	int sum = 0;
+" 	int i = 2;
+"
+" 	while (i <= n)
+" 	{
+" 		if (is_prime(i) == 1)
+" 			sum += i;
+" 		++i;
+" 	}
+" 	return (sum);
+" }
+"
+" int		main(int argc, char **argv)
+" {
+" 	int n;
+" 	int	i = 0;
+"
+" 	if (argc == 2)
+" 	{
+" 		while (argv[1][i] != 0)
+" 		{
+" 			n = n * 10 + (argv[1][i] - '0');
+" 			i++;
+" 		}
+" 		ft_putnbr(add_prime_sum(n));
+" 	}
+" 	else
+" 		ft_putnbr(0);
+" 	write(1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 03/epur_str/epur_str.c =====
+" #include <unistd.h>
+"
+" int		main(int argc, char **argv)
+" {
+" 	int	i;
+" 	int	j;
+"
+" 	if (argc == 2)
+" 	{
+" 		i = 0;
+" 		while (argv[1][i] == ' ' || argv[1][i] == '\t')
+" 			i++;//if space or tab ignor them
+" 		while (argv[1][i] != '\0')
+" 		{
+" 			if (argv[1][i] == ' ' || argv[1][i] == '\t')
+" 				j = 1;
+" 			if (!(argv[1][i] == ' ' || argv[1][i] == '\t'))
+" 			{//if not (space or tab) add space
+" 				if (j)
+" 					write(1, " ", 1);
+" 				j = 0;
+" 				write(1, &argv[1][i], 1);
+" 			}
+" 			i++;
+" 		}
+" 	}
+" 	write(1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 03/expand_str/expand_str.c =====
+" #include <unistd.h>
+"
+" int	main(int argc, char **argv)
+" {
+" 	int	i = 0;
+"
+" 	if (argc == 2)
+" 	{
+" 		while (argv[1][i] == ' ' || argv[1][i] == '\t')
+" 			i++;//if space or tab ignor them
+" 		while (argv[1][i] != '\0')
+" 		{
+" 			if (argv[1][i] == ' ' || argv[1][i] == '\t')
+" 			{
+" 				if (argv[1][i+1] > 32 && argv[1][i+1] != '\0')
+" 					write (1, "   ", 3);
+" 			}// if not printable and end, ignor. else put 3 space
+" 			else if (argv[1][i] != ' ' && argv[1][i] != '\t')
+" 				write (1, &argv[1][i], 1);
+" 			i++;
+" 		}
+" 	}
+" 	write (1, "\n", 1);
+" 	return 0;
+" }
+"
+" ===== Level 03/ft_atoi_base/ft_atoi_base.c =====
+" char is_lower(char c)
+" {
+"     if (c >= 'A' && c <= 'Z')
+"         return (c + 32);
+"     return(c);
+" }
+"
+" int digit_in_base(char c, int base)
+" {
+"     int max = 0;
+"
+"     if (base <= 10)
+"         max = base + '0';
+"     else
+"         max = base - (10 + 'a');
+"
+"     if (c >= '0' && c <= '9' && c <= max)
+"         return (c - '0');
+"     else if (c >= 'a' && c <= 'f' && c <= max)
+"         return (10 + c -'a');
+"     else
+"         return (-1);
+" }
+"
+" int ft_atoi_base(const char *str, int str_base)
+" {
+"     int sign = 1;
+"     int res = 0;
+"     int n;
+"
+"     if (*str == '-')
+"     {
+"         sign = -1;
+"         str++;
+"     }
+"     while ((n = digit_in_base(is_lower(*str),str_base) >= 0))
+"     {
+"         res *= str_base;
+"         res = res + (n * sign);
+"         str++;
+"     }
+"     return (res);
+" }
+"
+" ===== Level 03/ft_list_size/ft_list.h =====
+" typedef struct    s_list
+" {
+"     struct s_list *next;
+"     void          *data;
+" }                 t_list;
+"
+" ===== Level 03/ft_list_size/ft_list_size.c =====
+" #include "ft_list.h"
+"
+" int	ft_list_size(t_list *begin_list)
+" {
+" 	if (begin_list == 0)
+" 		return (0);
+" 	return (1 + ft_list_size(begin_list->next));//1 is our first list, then + the next from start
+" }
+"
+" ===== Level 03/ft_range/ft_range.c =====
+" #include <stdlib.h>
+"
+" int	abs(int n)
+" {
+" 	if (n < 0)
+" 		return (-n);
+" 	return (n);
+" }
+"
+" int	*ft_range(int start, int end)
+" {
+" 	int	size = end - start;
+" 	int	*i;
+" 	int	*j;
+"
+" 	size = abs(size);
+" 	if (size)
+" 	{
+" 		j = (int *)malloc(sizeof(int) * size);
+" 		if (j)
+" 		{
+" 			i = j;
+" 			while (start > end)
+" 			{
+" 				*j = start;
+" 				j++;
+" 				start--;
+" 			}
+" 			while (start <= end)
+" 			{
+" 				*j = start;
+" 				j++;
+" 				start++;
+" 			}
+" 			return (i);
+" 		}
+" 	}
+" 	else
+" 	{
+" 		j = malloc(sizeof(int) * 1);
+" 		*j = 0;
+" 	}
+" 	return (j);
+" }
+"
+" ===== Level 03/ft_rrange/ft_rrange.c =====
+" #include <stdlib.h>
+"
+" int	abs(int n)
+" {
+" 	if (n < 0)
+" 		return (-n);
+" 	return (n);
+" }
+"
+" int	*ft_rrange(int start, int end)
+" {
+" 	int	i;
+" 	int	j;
+" 	int	n;
+" 	int	*tab;
+"
+" 	n = 1 + abs(end - start);
+" 	tab = malloc(sizeof(int) * n);
+" 	if (start > end)
+" 		j = 1;
+" 	else
+" 		j = -1;
+" 	i = 0;
+" 	while (i < n)
+" 	{
+" 		tab[i] = end;
+" 		end += j;
+" 		i++;
+" 	}
+" 	return (tab);
+" }
+"
+" ===== Level 03/hidenp/hidenp.c =====
+" #include <unistd.h>
+"
+" int main(int ac, char **av)
+" {
+" 	int i = 0;
+" 	int j = 0;
+"
+" 	if (ac == 3)
+" 	{
+" 		while (av[1][i] != '\0')
+" 		{
+" 			if (av[1][i] == av[2][j])
+" 				i++;
+" 			if (av[2][j] == '\0')
+" 			{
+" 				write(1, "0\n", 2);
+" 				return(0);
+" 			}
+" 			j++;
+" 		}
+" 		write(1, "1", 1);
+" 	}
+" 	write (1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 03/lcm/lcm.c =====
+" unsigned	int	lcm(unsigned int a, unsigned int b)
+" {
+" 	unsigned int i;
+"
+" 	if (a == 0 || b == 0)
+" 		return (0);
+" 	if (a > b)
+" 		i = a;
+" 	else
+" 		i = b;
+" 	while (1)
+" 	{
+" 		if (i % a == 0 && i % b == 0)
+" 			return (i);
+" 		i++;
+" 	}
+" 	return (0);
+" }
+"
+" ===== Level 03/paramsum/paramsum.c =====
+" #include <unistd.h>
+"
+" void	ft_putnbr(int n)
+" {
+" 	if (n > 9)
+" 		ft_putnbr(n / 10);
+" 	char c = (n % 10) + '0';
+" 	write(1, &c, 1);
+" }
+"
+" int		main(int argc, char **argv)
+" {
+" 	(void)argv;//for gcc
+" 	ft_putnbr(argc - 1);
+" 	write(1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 03/pgcd/pgcd.c =====
+" #include <stdio.h>
+" #include <stdlib.h>
+"
+" void	pgcd(int a, int b)
+" {
+" 	int	i = a;
+"
+" 	while (i > 0)
+" 	{
+" 		if (a % i == 0 && b % i == 0)
+" 		{
+" 			printf("%d", i);
+" 			return ;
+" 		}
+" 		i--;
+" 	}
+" }
+"
+" int	main(int argc, char **argv)
+" {
+" 	if (argc == 3)
+" 		pgcd(atoi(argv[1]), atoi(argv[2]));
+" 	printf("\n");
+" 	return 0;
+" }
+"
+" ===== Level 03/print_hex/print_hex.c =====
+" #include <unistd.h>
+"
+" void	print_hex(int n)
+" {
+" 	char	c[] = "0123456789abcdef";
+"
+" 	if (n >= 16)
+" 		print_hex(n / 16);
+" 	write(1, &c[n % 16], 1);
+" }
+"
+" int	main(int argc, char **argv)
+" {
+" 	int	i = 0;
+" 	int	n = 0;
+"
+" 	if(argc == 2)
+" 	{
+" 		while (argv[1][i] != 0)
+" 		{
+" 			n = n * 10 + (argv[1][i] - '0');//atoi
+" 			i++;
+" 		}
+" 		print_hex(n);
+" 	}
+" 	write(1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 03/rstr_capitalizer/rstr_capitalizer.c =====
+" #include <unistd.h>
+"
+" void capitalizer(char *str)
+" {
+" 	int i = 0;
+"
+" 	while (str[i] != '\0')//making all line lowercase
+" 	{
+" 		if (str[i] >= 'A' && str[i] <= 'Z')
+" 			str[i] += 32;
+" 		i++;
+" 	}
+" 	i = 0;
+" 	while (str[i])
+" 	{
+" 		if ((str[i] >= 'a' && str[i] <= 'z') && (str[i + 1] == '\0'))//if lower and next is the end
+" 			str[i] -= 32;
+" 		else if ((str[i] >= 'a' && str[i] <= 'z') && (str[i + 1] == ' ' || str[i + 1] =='\t'))//if the next is space or tab
+" 			str[i] -= 32;
+" 		write (1, &str[i], 1);
+" 		i++;
+" 	}
+" }
+"
+" int main (int argc, char **argv)
+" {
+" 	int i = 1;
+"
+" 	if (argc > 1)
+" 	{
+" 		while (argv[i])
+" 		{
+" 			capitalizer(argv[i]);
+" 			write (1,"\n", 1);
+" 			i++;
+" 		}
+" 	}
+" 	else
+" 		write (1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 03/str_capitalizer/str_capitalizer.c =====
+" #include <unistd.h>
+"
+" void capitalizer(char *str)
+" {
+" 	int i = 0;
+"
+" 	while (str[i] != '\0')//making all line lowercase
+" 	{
+" 		if (str[i] >= 'A' && str[i] <= 'Z')
+" 			str[i] += 32;
+" 		i++;
+" 	}
+" 	i = 0;
+" 	while (str[i])
+" 	{
+" 		if (str[0] >= 'a' && str[i] <= 'z')//if first index lower
+" 			str[0] -= 32;
+" 		if ((str[i] >= 'a' && str[i] <= 'z') && (str[i - 1] == ' ' || str[i - 1] =='\t'))//if the previou is space or tab
+" 			str[i] -= 32;
+" 		write (1, &str[i], 1);
+" 		i++;
+" 	}
+" }
+"
+" int main (int argc, char **argv)
+" {
+" 	int i = 1;
+"
+" 	if (argc > 1)
+" 	{
+" 		while (argv[i])
+" 		{
+" 			capitalizer(argv[i]);
+" 			write (1,"\n",1);
+" 			i++;
+" 		}
+" 	}
+" 	else
+" 		write (1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 03/tab_mult/tab_mult.c =====
+" #include <unistd.h>
+"
+" void	ft_putnbr(int n)
+" {
+" 	if (n > 9)
+" 		ft_putnbr(n / 10);
+" 	char c = (n % 10) + '0';
+" 	write(1, &c, 1);
+" }
+"
+" int		main(int argc, char **argv)
+" {
+" 	int n;
+" 	int	i = 0;
+" 	int	j = 1;
+"
+" 	if (argc == 2)
+" 	{
+" 		while (argv[1][i] != '\0')
+" 		{
+" 			n = n * 10 + (argv[1][i] - '0');
+" 			i++;
+" 		}
+" 		while (j <= 9)
+" 		{
+" 			ft_putnbr(j); //put 1 to 9
+" 			write(1, " x ", 3);
+" 			ft_putnbr(n); // put av[1] as int
+" 			write(1, " = ", 3);
+" 			ft_putnbr(j * n); // do op
+" 			write(1, "\n", 1);
+" 			j++;
+" 		}
+" 	}
+" 	else
+" 		write(1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 04/flood_fill/flood_fill.c =====
+" #include "flood_fill.h"
+"
+" void    fill(char tab, t_point size, t_point cur, char to_fill)
+" {
+"     if (cur.y < 0  cur.y >= size.y  cur.x < 0  cur.x >= size.x
+"          tab[cur.y][cur.x] != to_fill)
+"         return;
+"
+"     tab[cur.y][cur.x] = 'F';
+"     fill(tab, size, (t_point){cur.x - 1, cur.y}, to_fill);
+"     fill(tab, size, (t_point){cur.x + 1, cur.y}, to_fill);
+"     fill(tab, size, (t_point){cur.x, cur.y - 1}, to_fill);
+"     fill(tab, size, (t_point){cur.x, cur.y + 1}, to_fill);
+" }
+"
+" void    flood_fill(char tab, t_point size, t_point begin)
+" {
+"     fill(tab, size, begin, tab[begin.y][begin.x]);
+" }
+"
+" ===== Level 04/flood_fill/flood_fill.h =====
+" #ifndef FLOOD_FILL_H
+" # define FLOOD_FILL_H
+"
+"  typedef struct 	s_point
+"  {
+"     int 		x;				// x : Width  | x-axis
+"     int 		y;				// y : Height | y-axis
+"  } 				t_point;
+"
+" #endif
+"
+"
+" ===== Level 04/fprime/fprime.c =====
+" #include <stdlib.h>
+" #include <stdio.h>
+"
+" void	fprime(unsigned int nb)
+" {
+" 	unsigned int	prime;
+"
+" 	if (nb == 1)
+" 		printf("1");
+" 	else
+" 	{
+" 		prime = 2;
+" 		while (nb > 1)
+" 		{
+" 			if (nb % prime == 0)
+" 			{
+" 				printf("%d", prime);
+" 				nb /= prime;
+" 				if (nb > 1)
+" 					printf("*");
+" 				prime--;
+" 			}
+" 			prime++;
+" 		}
+" 	}
+" }
+"
+" int		main(int ac, char **av)
+" {
+" 	if (ac == 2 && *av[1])
+" 		fprime(atoi(av[1]));
+" 	printf("\n");
+" 	return (0);
+" }
+"
+" ===== Level 04/ft_itoa/ft_itoa.c =====
+" #include <stdlib.h>
+"
+" size_t	ft_abs(int n)//ignoring -
+" {
+" 	if (n < 0)
+" 		return (-n);
+" 	return (n);
+" }
+"
+" size_t	ft_count(int n)
+" {
+" 	size_t	c = 0;
+"
+" 	if (n <= 0)
+" 		c++;
+" 	while (n != 0)
+" 	{
+" 		n /= 10;
+" 		c++;
+" 	}
+" 	return (c);
+" }
+"
+" char	*ft_itoa(int n)
+" {
+" 	char	*str;
+" 	size_t	size;
+"
+" 	size = ft_count(n);//geting string size for malloc
+" 	str = malloc(sizeof(char) * (size + 1));
+" 	if (str == 0)
+" 		return (NULL);
+" 	str[size] = '\0';//put the end to the last index
+" 	if (n == 0)//check 0
+" 		str[0] = '0';
+" 	else if (n < 0)//check minus
+" 		str[0] = '-';
+" 	while (n != 0)
+" 	{
+" 		str[--size] = ft_abs(n % 10) + '0';//int to char
+" 		n /= 10;
+" 	}
+" 	return (str);
+" }
+"
+" ===== Level 04/ft_list_foreach/ft_list.h =====
+" typedef struct    s_list
+" {
+"     struct s_list *next;
+"     void          *data;
+" }                 t_list;
+"
+" ===== Level 04/ft_list_foreach/ft_list_foreach.c =====
+" #include <stdlib.h>
+" #include "ft_list.h"
+"
+" void	ft_list_foreach(t_list *begin_list, void (*f)(void *))
+" {
+" 	if (begin_list == 0)
+" 		return;
+" 	while (begin_list != 0)
+" 	{
+" 		f(begin_list->data);
+" 		begin_list = begin_list->next;
+" 	}
+" }
+"
+" ===== Level 04/ft_list_remove_if/ft_list.h =====
+" /* ************************************************************************** */
+" /*                                                                            */
+" /*                                                        :::      ::::::::   */
+" /*   list.h                                             :+:      :+:    :+:   */
+" /*                                                    +:+ +:+         +:+     */
+" /*   By: zaz <zaz@staff.42.fr>                      +#+  +:+       +#+        */
+" /*                                                +#+#+#+#+#+   +#+           */
+" /*   Created: 2014/02/27 13:14:10 by zaz               #+#    #+#             */
+" /*   Updated: 2014/02/27 13:15:29 by zaz              ###   ########.fr       */
+" /*                                                                            */
+" /* ************************************************************************** */
+"
+" typedef struct s_list t_list;
+"
+" struct s_list
+" {
+" 	int     data;
+" 	t_list  *next;
+" };
+"
+" ===== Level 04/ft_list_remove_if/ft_list_remove_if.c =====
+" #include <stdlib.h>
+" #include "ft_list.h"
+"
+" void ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)())
+" {
+" 	if (begin_list == NULL || *begin_list == NULL)
+" 		return ;
+" 	t_list *tmp = *begin_list;
+" 	if (cmp(tmp->data, data_ref) == 0)
+" 	{
+" 		*begin_list = tmp->next;
+" 		free(tmp);
+" 		ft_list_remove_if(begin_list, data_ref, cmp);
+" 	}
+" 	tmp = *begin_list;
+" 	ft_list_remove_if(&tmp->next, data_ref, cmp);
+" }
+"
+" ===== Level 04/ft_split/split.c =====
+" #include <libc.h>
+"
+" char	**ft_split(char *str)
+" {
+" 	char **tab;
+" 	int i = 0;
+" 	int j;
+"
+" 	tab = (char **)malloc(sizeof(char *) * 1000);//1000 is random size
+" 	if (!tab)
+" 		return (NULL);
+" 	while (*str)
+" 	{
+" 		tab[i] = malloc(1000);//1000 is random size
+" 		while (*str && (*str == ' ' || *str == '\t'))
+" 			str++;
+" 		j = 0;
+" 		while (*str && (*str != ' ' || *str != '\t'))
+" 			tab[i][j++] = *str++;
+" 		tab[i][j] = '\0';
+" 		i++;
+" 	}
+" 	tab[i] = 0;
+" 	return (tab);
+" }
+"
+" ===== Level 04/rev_wstr/rev_wstr.c =====
+" #include <unistd.h>
+"
+" void		rev_wstr(char *s, int first)
+" {
+" 	int	i = 0;
+" 	int	j;
+" 	if (s[i])
+" 	{
+" 		while (s[i] && (s[i] == ' ' || s[i] == '\t'))
+" 			i++;
+" 		if (!s[i])
+" 			return ;
+" 		j = i;
+" 		while (s[i] && s[i] != ' ' && s[i] != '\t')
+" 			i++;
+" 		rev_wstr(&s[i], 0);
+" 		write(1, &s[j], i - j);
+" 		if (!first)
+" 			write(1, " ", 1);
+" 	}
+" }
+"
+" int			main(int argc, char **argv)
+" {
+" 	if (argc == 2)
+" 		rev_wstr(argv[1], 1);
+" 	write(1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 04/rostring/rostring.c =====
+" #include <unistd.h>
+"
+" int		space(char c)
+" {
+" 	return (c == ' ' || c == '\t');
+" }
+"
+" void	rostring(char *s)
+" {
+" 	int		i = 0;
+" 	int		j = 0;
+"
+" 	while (s[i])
+" 	{
+" 		// skip beggining whitespaces
+" 		while (space(s[i]))
+" 			i++;
+" 		if (s[i] && !space(s[i]))
+" 		{
+" 			// if it's the beggining
+" 			if (j == 0)
+" 				// keep the length of first word for later
+" 				while (s[i] && !space(s[i++]))
+" 					j++;
+" 			else
+" 			{
+" 				// for other words, just write it to stdout (+ one whitespace)
+" 				while (s[i] && !space(s[i]))
+" 					write(1, &s[i++], 1);
+" 				write(1, " ", 1);
+" 			}
+" 		}
+" 	}
+" 	i = 0; // write first word
+" 	while (space(s[i]))
+" 		i++;
+" 	while (j--)
+" 		write(1, &s[i++], 1);
+" }
+"
+" int		main(int ac, char **av)
+" {
+" 	if (ac > 1)
+" 		rostring(av[1]);
+" 	write(1, "\n", 1);
+" 	return (0);
+" }
+"
+" ===== Level 04/sort_int_tab/sort_int_tab.c =====
+" void	sort_int_tab(int *tab, unsigned int size)
+" {
+" 	unsigned int i = 0;
+" 	int j;
+"
+" 	while (i < size)
+" 	{
+" 		if (tab[i] > tab[i + 1])
+" 		{
+" 			j = tab[i];//swap
+" 			tab[i] = tab[i + 1];
+" 			tab[i + 1] = j;
+" 			i = -1;
+" 		}
+" 		i++;
+" 	}
+" }
+"
+" ===== Level 04/sort_list/list.h =====
+" /* ************************************************************************** */
+" /*                                                                            */
+" /*                                                        :::      ::::::::   */
+" /*   list.h                                             :+:      :+:    :+:   */
+" /*                                                    +:+ +:+         +:+     */
+" /*   By: zaz <zaz@staff.42.fr>                      +#+  +:+       +#+        */
+" /*                                                +#+#+#+#+#+   +#+           */
+" /*   Created: 2014/02/27 13:14:10 by zaz               #+#    #+#             */
+" /*   Updated: 2014/02/27 13:15:29 by zaz              ###   ########.fr       */
+" /*                                                                            */
+" /* ************************************************************************** */
+"
+" typedef struct s_list t_list;
+"
+" struct s_list
+" {
+" 	int     data;
+" 	t_list  *next;
+" };
+"
+" ===== Level 04/sort_list/sort_list.c =====
+" #include "list.h"
+"
+" t_list	*sort_list(t_list *lst, int (*cmp)(int, int))
+" {
+" 	int swap;
+" 	t_list *tmp = lst;
+"
+" 	while (lst->next != 0)
+" 	{
+" 		if (((*cmp)(lst->data, lst->next->data)) == 0)
+" 		{
+" 			swap = lst->data;
+" 			lst->data = lst->next->data;
+" 			lst->next->data = swap;
+" 			lst = tmp;
+" 		}
+" 		else
+" 			lst = lst->next;
+" 	}
+" 	lst = tmp;
+" 	return (lst);
+" }
+" ===== END LOCAL EXAM SOLUTIONS =====
